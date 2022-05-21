@@ -1,41 +1,74 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { FaTimes } from "react-icons/fa";
 import { createPortal } from "react-dom";
 import CustomRate from "./Custom-Rate";
-import YourJudge from "../../SearchPage/components/Your-Judge";
+import YourJudge from "./Your-Judge";
+import debounce from "lodash.debounce";
+import io from "socket.io-client";
+import { useSelector } from "react-redux";
+
+let socket = io.connect("http://localhost:5000");
 
 ModalReviewMobile.propTypes = {
   item: PropTypes.object,
+  onShow: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
-function ModalReviewMobile({ item = {} }) {
+function ModalReviewMobile({ item = {}, onShow = null, onSubmit = null }) {
+  const user = useSelector((state) => state.auth.current);
   const [values, setValues] = useState({
     food: 5,
     service: 5,
     space: 5,
     price: 5,
     location: 5,
+    review: "",
   });
+
   if (typeof document === "undefined")
     return <div className="modal">Modal</div>;
-
+  useEffect(() => {
+    socket = io.connect("http://localhost:5000");
+    socket.on("createReview", (data) => {
+      // console.log(data);
+      onSubmit(data);
+      onShow();
+    });
+    return () => {
+      socket.destroy();
+    };
+  }, []);
   const handleOnChange = (value) => {
     setValues((prev) => ({ ...prev, ...value }));
   };
-
-  const handleClick = () => {
-    console.log(values);
+  const handleClick = async () => {
+    try {
+      if (values.review.trim().length < 10) return null;
+      console.log({ ...values, blogId: item._id, userId: user._id });
+      socket.emit("createReview", {
+        ...values,
+        blogId: item._id,
+        userId: user._id,
+      });
+    } catch (error) {
+      console.log("Error", error.message);
+    }
   };
+
   return createPortal(
     <div className="fixed flex  justify-center inset-0 z-[10000] bg-[rgba(0,0,0,0.65)]">
-      <div className="absolute ">
+      <div className="absolute h-full overflow-auto">
         <div className="bg-white w-[610px]">
           <div className="px-10 h-[50px] border-b-[1px] border-b-[rgba(0,0,0,0.1)] flex items-center justify-between">
             <div className="text-[20px] flex items-center justify-center grow font-bold ">
               Đánh giá {item.name}
             </div>
-            <div className="w-[30px] h-[30px] rounded-full text-[20px] flex items-center justify-center mr-[-30px] cursor-pointer hover:bg-[#cdcfd4] transition-all bg-[#e4e6eb] text-[#666]">
+            <div
+              onClick={onShow}
+              className="w-[30px] h-[30px] rounded-full text-[20px] flex items-center justify-center mr-[-30px] cursor-pointer hover:bg-[#cdcfd4] transition-all bg-[#e4e6eb] text-[#666]"
+            >
               <FaTimes />
             </div>
           </div>
@@ -72,10 +105,20 @@ function ModalReviewMobile({ item = {} }) {
                 onChange={handleOnChange}
               />
             </div>
-            <YourJudge item={item} />
+            <YourJudge item={item} onChange={handleOnChange} />
           </div>
           <div className="p-[10px] border-t-[1px] border-t-[rgba(0,0,0,.1)] flex items-center justify-end">
-            <button className="px-[10px] py-[6px] text-[#bcc0c4] bg-[#e4e6eb] rounded-[6px] text-base font-medium outline-none">
+            <button
+              disabled={values.review.trim().length > 10 ? false : true}
+              onClick={handleClick}
+              className={`px-[10px] py-[6px]  rounded-[6px] text-base font-medium outline-none
+              ${
+                values.review.trim().length >= 10
+                  ? "bg-primary text-white"
+                  : "text-[#bcc0c4] bg-[#e4e6eb]"
+              }
+              `}
+            >
               Gửi đánh giá
             </button>
           </div>

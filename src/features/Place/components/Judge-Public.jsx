@@ -11,10 +11,19 @@ let socket = io.connect("http://localhost:5000");
 
 JudgePublic.propTypes = {
   item: PropTypes.object,
+  show: PropTypes.bool,
+  onShow: PropTypes.func,
+  hideShow: PropTypes.func,
 };
 
-function JudgePublic({ item = {} }) {
+function JudgePublic({
+  item = {},
+  show = false,
+  onShow = null,
+  hideShow = null,
+}) {
   const [reviews, setReviews] = useState([]);
+
   const [count, setCount] = useState(1);
   const [filters, setFilers] = useState({ limit: 5 });
   const [page, setPage] = useState(1);
@@ -34,7 +43,6 @@ function JudgePublic({ item = {} }) {
   useEffect(() => {
     socket = io.connect("http://localhost:5000");
     socket.on("favor", (data) => {
-      console.log(data);
       setReviews(data);
     });
     return () => {
@@ -45,12 +53,14 @@ function JudgePublic({ item = {} }) {
   const handleClickFavor = (userId, reviewId) => {
     socket.emit("favor", { userId, reviewId });
   };
-
   return (
     <div className="pt-1 px-[14px] pb-[10px] mb-[6px] shadow-[0_1px_4px_rgb(0,0,0,0.3)] rounded-[10px]">
       <div className="flex items-center justify-between pb-[6px]">
         <h2 className="text-xl font-semibold">Đánh giá từ cộng đồng</h2>
-        <button className="bg-primary text-white py-[6px] px-2 font-bold text-sm rounded-[10px] border border-primary hover:bg-[#be0129] transition-all duration-150">
+        <button
+          onClick={onShow}
+          className="bg-primary text-white py-[6px] px-2 font-bold text-sm rounded-[10px] border border-primary hover:bg-[#be0129] transition-all duration-150"
+        >
           Viết đánh giá
         </button>
       </div>
@@ -79,21 +89,26 @@ function JudgePublic({ item = {} }) {
         reviews.map((item) => (
           <div key={item._id}>
             <JudgeUser item={item} onClick={handleClickFavor} />
-
-            {reviews.length > 5 && (
-              <div>
-                <Pagination
-                  data={reviews}
-                  onChange={(page) => handlePageChange(page)}
-                  itemsPerPage={5}
-                  count={count}
-                  page={page}
-                />
-              </div>
-            )}
           </div>
         ))}
-      <ModalReviewMobile item={item} />
+
+      <div>
+        <Pagination
+          data={reviews}
+          onChange={(page) => handlePageChange(page)}
+          itemsPerPage={5}
+          count={count}
+          page={page}
+        />
+      </div>
+
+      {show && (
+        <ModalReviewMobile
+          item={item}
+          onShow={hideShow}
+          onSubmit={(values) => setReviews((prev) => [...prev, values])}
+        />
+      )}
     </div>
   );
 }

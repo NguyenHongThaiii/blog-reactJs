@@ -15,6 +15,7 @@ PlacePage.propTypes = {};
 function PlacePage(props) {
   const location = useLocation();
   const slug = location.pathname.split("/")[2];
+  const [show, setShow] = useState(false);
 
   const [state, setState] = useState({});
   useEffect(() => {
@@ -71,10 +72,15 @@ function PlacePage(props) {
             />
           </div>
         </div>
-        <Judge item={state} />
+        <Judge item={state} show={show} onShow={() => setShow(true)} />
         <Details item={state} />
         <ConvenientSlider item={state} />
-        <JudgePublic item={state} />
+        <JudgePublic
+          item={state}
+          show={show}
+          onShow={() => setShow(true)}
+          hideShow={() => setShow(false)}
+        />
 
         <div className="p-[14px] mb-3 shadow-[0_1px_4px_rgb(0,0,0,0.15)] rounded-[10px] bg-[linear-gradient(-4deg,#fbf4f4,#ffa8a8)] ">
           <h3 className="text-lg font-semibold mb-1">

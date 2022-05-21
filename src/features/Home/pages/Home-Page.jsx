@@ -6,6 +6,7 @@ import NearArea from "../components/Near-Area";
 import ProminentPlace from "../components/Promient-Place";
 import SuggestArea from "../components/Sugget-Area";
 import LayoutUser from "../../../components/Layout-User";
+import TextareaCustomControl from "../../../components/Form-Control/Textarea-Custom-Control";
 
 HomePage.propTypes = {};
 
@@ -17,6 +18,7 @@ function HomePage(props) {
       <NearArea />
       <ProminentPlace />
       <SuggestArea />
+      <TextareaCustomControl />
     </LayoutUser>
   );
 }

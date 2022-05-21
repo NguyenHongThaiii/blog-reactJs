@@ -19,7 +19,7 @@ function CustomRate({ name = "", title = "", onChange = null }) {
       const cur = nodeRef.current;
       listStar = cur.querySelectorAll(`.mouseover_${name}`);
       listStar.forEach((item, index) => {
-        item.className = `cursor-pointer absolute inset-0 z-20 transition-all w-10 h-10  mouseover_${name} text-primary   `;
+        item.className = `cursor-pointer absolute inset-0 z-20  transition-all w-10 h-10  mouseover_${name} text-primary   `;
       });
     };
 
@@ -32,7 +32,7 @@ function CustomRate({ name = "", title = "", onChange = null }) {
 
       listStar.forEach((item, index) => {
         if (index > indexStar) {
-          item.className = `cursor-pointer absolute inset-0 z-20 transition-all  w-10 h-10  mouseover_${name} hover:opacity-0 hover:invisible z-0`;
+          item.className = `cursor-pointer absolute inset-0 z-20 transition-all text-[#d8d8d8]  w-10 h-10  mouseover_${name} hover:opacity-0 hover:invisible z-0`;
         }
       });
     };
@@ -73,7 +73,7 @@ function CustomRate({ name = "", title = "", onChange = null }) {
           >
             <div
               className={`cursor-pointer absolute inset-0 z-20 transition-all  duration-300 mouseover_${name} ${
-                index + 1 > count ? "text-black" : "text-primary"
+                index + 1 > count ? "text-[#d8d8d8]" : "text-primary"
               }`}
             >
               <FaStar className="w-8 h-8 m-0 " />

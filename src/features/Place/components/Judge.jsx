@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import reviewsApi from "./../../../../api/reviewsApi";
 Judge.propTypes = {
   item: PropTypes.object,
+  onShow: PropTypes.func,
 };
 
-function Judge({ item = {} }) {
+function Judge({ item = {}, onShow = null }) {
   const [state, setState] = useState([]);
   const [judges, setJudges] = useState({});
   useEffect(() => {
@@ -120,7 +121,10 @@ function Judge({ item = {} }) {
 
       <div className={`relative ${state.length > 0 ? "hidden" : "block"}`}>
         <div className="absolute inset-0 bg-[hsla(0,0%,100%,0.65)] flex items-center justify-center">
-          <button className="text-primary min-h-[50px] animate-shake transition-all duration-150 hover:animate-none hover:bg-[#be0129] hover:border-[#be0129] hover:text-white bg-transparent cursor-pointer font-bold  border-4 border-primary text-sm py-[10px] px-4 rounded-[10px] ">
+          <button
+            onClick={onShow}
+            className="text-primary min-h-[50px] animate-shake transition-all duration-150 hover:animate-none hover:bg-[#be0129] hover:border-[#be0129] hover:text-white bg-transparent cursor-pointer font-bold  border-4 border-primary text-sm py-[10px] px-4 rounded-[10px] "
+          >
             Đánh giá ngay
           </button>
         </div>

@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { FaTimesCircle, FaCamera } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import TextareaCustomControl from "../../../components/Form-Control/Textarea-Custom-Control";
 
 YourJudge.propTypes = {
   items: PropTypes.object,
@@ -31,9 +32,13 @@ function YourJudge({ item = {}, onChange = null }) {
     const files = Array.from(e.target.files).map((item) => {
       return URL.createObjectURL(e.target.files[0]);
     });
+    const arrayFiles = Array.from(e.target.files).map((item) => {
+      return e.target.files[0];
+    });
     setFiles((prev) => [...prev, ...files]);
+    if (!onChange) return;
+    onChange({ files: arrayFiles });
   };
-  console.log(files);
   return (
     <div>
       <h3 className="text-[18px] text-[#898c95] font-semibold mb-2">
@@ -41,7 +46,6 @@ function YourJudge({ item = {}, onChange = null }) {
       </h3>
       <div className="relative text-base rounded-[10px] mb-[10px]">
         <input
-          onChange={(e) => setState(e.target.value)}
           type="text"
           ref={inputRef}
           className=" transition-all w-full border-[1px] rounded-[10px] outline-none border-[#d9d9d9] bg-white py-1 px-3 focus:shadow-[0_0_0_2px_rgb(238,0,51,0.2)] focus:border-[#fa284e]"
@@ -51,6 +55,15 @@ function YourJudge({ item = {}, onChange = null }) {
           className="absolute right-[10px] top-[10px] cursor-pointer text-[rgba(0,0,0,.25)] hover:text-[rgba(0,0,0,.45)] transition-all"
         >
           <FaTimesCircle />
+        </div>
+
+        <div>
+          <TextareaCustomControl
+            onChange={onChange}
+            name="review"
+            id="reviewUser"
+            placeholder="Nhập tối thối 10 kí tự."
+          />
         </div>
 
         <div className="mt-4 grid grid-cols-5 gap-3">
