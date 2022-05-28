@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 ProminentPlaceItem.propTypes = {
   items: PropTypes.object,
@@ -13,11 +13,13 @@ function ProminentPlaceItem({ item }) {
     navigate(`/place/${item.slug}`);
   };
   return (
-    <div
-      onClick={handleClick}
-      className="rounded-[10px] shadow-xl cursor-pointer hover-scale hover:shadow-2xl transition-all duration-200 "
+    <Link
+      to={`/place/${item.slug}`}
+      // onClick={handleClick}
+      target="_blank"
+      className="rounded-[10px] block  cursor-pointer hover-scale hover:shadow-2xl transition-all duration-200 overflow-hidden shadow-[0_1px_4px_rgb(0,0,0,0.15)]"
     >
-      <div className="w-full  leading-[0] overflow-hidden h-[200px] md:h-[240px] lg:max-w-[273px]">
+      <div className="w-full  leading-[0] overflow-hidden h-[200px] md:h-[240px] lg:max-w-[280px]">
         <img
           src={`${import.meta.env.VITE_URL_BLOGS}${item.imgPreview[3]}`}
           alt={item.name}
@@ -30,7 +32,7 @@ function ProminentPlaceItem({ item }) {
         </p>
         <p className="text-black text-[14px] pb-[6px]">{address}</p>
       </div>
-    </div>
+    </Link>
   );
 }
 

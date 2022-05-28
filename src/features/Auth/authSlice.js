@@ -11,7 +11,7 @@ export const login = createAsyncThunk("users/login", async (data, thunkAPI) => {
   const response = await usersApi.login(data);
   console.log(response);
   setLocalStorage(STORAGE_KEY.TOKEN, response.token);
-  setLocalStorage(STORAGE_KEY.USER, response.data.user);
+  setLocalStorage(STORAGE_KEY.USER, JSON.stringify(response.data.user));
 
   return response.data.user;
 });
@@ -22,7 +22,7 @@ export const signup = createAsyncThunk(
     const response = await usersApi.signup(data);
     console.log(response);
     setLocalStorage(STORAGE_KEY.TOKEN, response.token);
-    setLocalStorage(STORAGE_KEY.USER, response.data.user);
+    setLocalStorage(STORAGE_KEY.USER, JSON.stringify(response.data.user));
 
     return response.data.user;
   }
@@ -32,7 +32,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     isShowLoginPage: false,
-    current: getLocalStorage(STORAGE_KEY.USER) || null,
+    current: JSON.parse(getLocalStorage(STORAGE_KEY.USER)) || null,
   },
   reducers: {
     showLoginPage: (state) => {
@@ -45,6 +45,14 @@ const authSlice = createSlice({
       removeLocalStorage(STORAGE_KEY.USER);
       removeLocalStorage(STORAGE_KEY.TOKEN);
       state.current = null;
+    },
+    createSaveBlog: (state, action) => {
+      const userLocal = JSON.parse(getLocalStorage(STORAGE_KEY.USER));
+
+      if (userLocal.blogSaved.includes(action.payload)) return;
+      userLocal.blogSaved = [...userLocal.blogSaved, action.payload];
+      state.current = { ...userLocal };
+      setLocalStorage(STORAGE_KEY.USER, JSON.stringify({ ...userLocal }));
     },
   },
   extraReducers: (builder) => {
@@ -59,5 +67,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { showLoginPage, hideLoginPage, logout } = authSlice.actions;
+export const { showLoginPage, hideLoginPage, logout, createSaveBlog } =
+  authSlice.actions;
 export default authSlice.reducer;

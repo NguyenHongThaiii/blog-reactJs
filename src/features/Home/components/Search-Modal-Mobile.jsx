@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import { useForm } from "react-hook-form";
 import SearchControl from "../../../components/Form-Control/Search-Control";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getLocalStorage, setLocalStorage } from "../../../utils";
 import blogsApi from "../../../../api/blogsApi";
 import debounce from "lodash.debounce";
@@ -14,6 +14,7 @@ SearchModalMobile.propTypes = {
 };
 
 function SearchModalMobile({ show, onShow }) {
+  const navigate = useNavigate();
   const [state, setState] = useState(() => {
     return getLocalStorage("view_history") || [];
   });
@@ -40,6 +41,10 @@ function SearchModalMobile({ show, onShow }) {
     setFilters((prev) => {
       return { ...prev, ...value };
     });
+  };
+
+  const handleToPlacePage = (value) => {
+    navigate(`/place/${value.slug}`);
   };
   return createPortal(
     <div
@@ -85,7 +90,7 @@ function SearchModalMobile({ show, onShow }) {
             <h3 className="py-1 pb-1 text-base font-bold">Đã xem gần đây</h3>
 
             {state.map((item) => (
-              <div key={item._id}>
+              <div key={item._id} onClick={() => handleToPlacePage(item)}>
                 <div className="px-[6px] py-[10px] flex relative hover:bg-[#eee] cursor-pointer transition-all duration-300">
                   <img
                     src={`${import.meta.env.VITE_URL_BLOGS}${item.image}`}

@@ -43,3 +43,27 @@ export const setLocalStorage = (name, value) => {
 export const removeLocalStorage = (name) => {
   return localStorage.removeItem(name);
 };
+
+export const handleTransformStringToDate = (transformString) => {
+  if (!transformString.length === 0) return false;
+  const start = transformString.split("-")[0];
+
+  const end = transformString.split("-")[1];
+  const date = new Date();
+  const hoursCurr = date.getHours();
+  const minutesCurr = date.getMinutes();
+  const startHours = start.split("-")[0];
+  const startMinutes = start.split("-")[1];
+  const endHours = end.split("-")[0];
+  const endMinutes = end.split("-")[1];
+
+  if (
+    hoursCurr < startHours ||
+    (hoursCurr > startHours && minutesCurr < startMinutes) ||
+    hoursCurr > endHours ||
+    (hoursCurr < endHours && minutesCurr > endMinutes)
+  )
+    return false;
+
+  return true;
+};

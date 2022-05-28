@@ -29,10 +29,10 @@ function YourJudge({ item = {}, onChange = null }) {
   };
   const handleOnChangeFile = (e) => {
     console.log(e.target.files);
-    const files = Array.from(e.target.files).map((item) => {
-      return URL.createObjectURL(e.target.files[0]);
+    const files = Array.from(e.target.files).map((item, index) => {
+      return URL.createObjectURL(e.target.files[index]);
     });
-    const arrayFiles = Array.from(e.target.files).map((item) => {
+    const arrayFiles = Array.from(e.target.files).map((item, index) => {
       return e.target.files[0];
     });
     setFiles((prev) => [...prev, ...files]);

@@ -3,15 +3,18 @@ import PropTypes from "prop-types";
 import blogsApi from "../../../../api/blogsApi";
 import ProminentPlaceItem from "./Prominent-Place-Item";
 
-ProminentPlace.propTypes = {};
+ProminentPlace.propTypes = {
+  limit: PropTypes.number,
+  data: PropTypes.array,
+};
 
-function ProminentPlace() {
+function ProminentPlace({ data = [], limit = 5 }) {
   const [state, setState] = useState([]);
 
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await blogsApi.getAll({ limit: 5 });
+        const { data } = await blogsApi.getAll({ limit: limit });
         setState(data.data);
       } catch (error) {
         console.log("Error 💥", error.message);

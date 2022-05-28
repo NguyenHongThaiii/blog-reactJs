@@ -32,85 +32,84 @@ const handleRenderSlider = (con) => {
   switch (con) {
     case "Bàn ngoài trời": {
       return (
-        <FaCloudSun className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaCloudSun className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
     }
     case "Bánh ngọt": {
       return (
-        <FaBirthdayCake className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaBirthdayCake className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
     }
     case "Chiếu bóng đá": {
       return (
-        <FaBaseballBall className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaBaseballBall className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
     }
     case "Chỗ chơi cho trẻ em": {
       return (
-        <FaBaby className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaBaby className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
     }
     case "Chỗ đậu ôtô": {
       return (
-        <FaCarAlt className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaCarAlt className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
     }
     case "Giao hàng": {
       return (
-        <FaShippingFast className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaShippingFast className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
     }
     case "Giữ xe máy": {
       return (
-        <FaMotorcycle className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaMotorcycle className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
     }
     case "Khu vực hút thuốc": {
       return (
-        <FaSmoking className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaSmoking className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
     }
     case "Mang đồ ăn ngoài": {
       return (
-        <FaHamburger className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaHamburger className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
     }
     case "Mang thú cưng": {
-      return <FaPaw className="text-primary text-[20px] mb-[6px] font-bold " />;
+      return (
+        <FaPaw className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
+      );
     }
     case "Máy lạnh & điều hòa": {
       return (
-        <FaWind className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaWind className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
     }
     case "Nhạc sống": {
       return (
-        <FaGuitar className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaGuitar className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
     }
     case "Thanh toán bằng thẻ": {
       return (
-        <FaCreditCard className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaCreditCard className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
     }
     case "Wi-fi miễn phí": {
       return (
-        <FaWifi className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaWifi className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
     }
 
     default:
       return (
-        <FaWifi className="text-primary text-[20px] mb-[6px] font-bold " />
+        <FaWifi className="text-primary lg:text-[24px] text-[20px] mb-[6px] font-bold " />
       );
-
-      break;
   }
 };
 
 function ConvenientSlider({ item = {} }) {
   const [numberSlides, setNumberSlides] = useState(4);
-
   useEffect(() => {
     const handleResize = () => {
       const len = item.convenient ? item.convenient.length : numberSlides;
@@ -118,6 +117,7 @@ function ConvenientSlider({ item = {} }) {
     };
     handleResize();
     window.addEventListener("resize", handleResize);
+
     return () => window.removeEventListener("resize", handleResize);
   }, [item]);
 
@@ -138,7 +138,7 @@ function ConvenientSlider({ item = {} }) {
             <SwiperSlide key={index}>
               <div className="py-[16px] px-[6px] cursor-pointer flex flex-col gap-x-2 justify-center text-center items-center">
                 {handleRenderSlider(convenient)}
-                <span className="text-sm">{convenient}</span>
+                <span className="text-sm">{convenient} </span>
               </div>
             </SwiperSlide>
           ))}

@@ -2,10 +2,10 @@ import debounce from "lodash.debounce";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import blogsApi from "../../../../api/blogsApi";
 import SearchControl from "../../../components/Form-Control/Search-Control";
-import { getLocalStorage } from "../../../utils";
+import { getLocalStorage, setLocalStorage } from "../../../utils";
 
 SearchModal.propTypes = {
   show: PropTypes.bool,
@@ -17,6 +17,7 @@ function SearchModal({ show, onShow = null, onSearch = null }) {
   const [state, setState] = useState(() => {
     return getLocalStorage("view_history") || [];
   });
+  const navigate = useNavigate();
   const [filters, setFilters] = useState({ limit: 5 });
   if (typeof document === "undefined") return <div>Modal</div>;
   const { control, handleSubmit } = useForm({
@@ -38,10 +39,16 @@ function SearchModal({ show, onShow = null, onSearch = null }) {
 
   const handleSearchChange = (value, e) => {
     e.preventDefault();
+    console.log(value);
     setFilters((prev) => {
       return { ...prev, ...value };
     });
     onSearch(value);
+    setLocalStorage("search_now", value?.name);
+  };
+
+  const handlePlacePace = (value) => {
+    navigate(`/place/${value.slug}`);
   };
   return (
     <div
@@ -86,7 +93,10 @@ function SearchModal({ show, onShow = null, onSearch = null }) {
 
           {state.map((item) => (
             <div key={item._id}>
-              <div className="px-[6px] py-[10px] flex relative hover:bg-[#eee] cursor-pointer transition-all duration-300">
+              <div
+                onClick={() => handlePlacePace(item)}
+                className="px-[6px] py-[10px] flex relative hover:bg-[#eee] cursor-pointer transition-all duration-300"
+              >
                 <img
                   src={`${import.meta.env.VITE_URL_BLOGS}${item.image}`}
                   alt=""

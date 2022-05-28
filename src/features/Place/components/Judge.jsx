@@ -14,11 +14,19 @@ function Judge({ item = {}, onShow = null }) {
       const { data } = await reviewsApi.getAll({ blog: item.id });
       const judge = {};
       data.data.forEach((item, index) => {
-        judge["food"] = item.food;
-        judge["service"] = item.service;
-        judge["price"] = item.price;
-        judge["space"] = item.space;
-        judge["location"] = item.location;
+        judge["food"] = judge["food"] ? judge["food"] + item.food : item.food;
+        judge["service"] = judge["service"]
+          ? judge["service"] + item.service
+          : item.service;
+        judge["price"] = judge["price"]
+          ? judge["price"] + item.price
+          : item.price;
+        judge["space"] = judge["space"]
+          ? judge["space"] + item.space
+          : item.space;
+        judge["location"] = judge["location"]
+          ? judge["location"] + item.location
+          : item.location;
       });
       setState(data.data);
       setJudges(() => {
@@ -32,14 +40,22 @@ function Judge({ item = {}, onShow = null }) {
       });
     })();
   }, [item]);
-
   return (
-    <div className="pt-1 px-[14px] pb-[10px] mb-[6px] shadow-[0_1px_4px_rgb(0,0,0,0.3)] rounded-[10px]">
+    <div className="pt-1 px-[14px] pb-[10px] mb-[6px] shadow-[0_1px_4px_rgb(0,0,0,0.3)] rounded-[10px] flex-1">
       <h2 className="text-[21px] font-semibold">Đánh giá</h2>
       <div className="flex items-center justify-center mb-2">
-        <div className="text-[28px] bg-primary text-center text-white rounded-[10px] py-1 px-2 min-w-[50px] mr-1 ">
-          {state.reduce((acc, cur) => acc + cur.rating, 0)}
-        </div>
+        {state.length > 0 ? (
+          <div className="text-[28px] bg-primary text-center text-white rounded-[10px] py-1 px-2 min-w-[50px] mr-1 font-bold">
+            {(
+              state.reduce((acc, cur) => acc + cur.rating, 0) / state.length
+            ).toFixed(1)}
+          </div>
+        ) : (
+          <div></div>
+        )}
+
+        {/* state.reduce((acc, cur) => acc + cur.rating, 0) / state.length} */}
+
         <div>
           {item.ratingsQuantity > 0 ? (
             <div></div>
@@ -48,72 +64,77 @@ function Judge({ item = {}, onShow = null }) {
               {state.length > 0 ? "Tuyệt vời" : "Chưa có đánh giá"}
             </div>
           )}
-          <div>/5 ({state.length} đánh giá)</div>
+          <div
+            className={`{${state.length > 0 ? "text-left" : "text-center"}}`}
+          >
+            {state.length > 0 && " / 5"} ({state.length} đánh giá)
+          </div>
         </div>
       </div>
 
       <div className={`${state.length === 0 ? "hidden" : "block"}`}>
         <div className="mb-[6px] flex items-center justify-between gap-5">
           <p className="basis-[30%]">Vị trí</p>
-          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden">
+
+          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden bg-[#ebebeb]  ">
             <span
               className={`text-sm  bg-primary h-full block `}
               style={{ width: `calc(100% * (${judges.location} / 5 ))` }}
             ></span>
           </div>
-          <span className="basis-[5%]">
+          <span className="basis-[5%] font-bold">
             {parseFloat(judges.location).toFixed(1)}
           </span>
         </div>
 
         <div className="mb-[6px] flex items-center justify-between gap-5">
           <p className="basis-[30%]">Không gian</p>
-          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden">
+          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden bg-[#ebebeb] ">
             <span
               className={`text-sm  bg-primary h-full block `}
               style={{ width: `calc(100% * (${judges.space} / 5 ))` }}
             ></span>
           </div>
-          <span className="basis-[5%]">
+          <span className="basis-[5%] font-bold">
             {parseFloat(judges.space).toFixed(1)}
           </span>
         </div>
 
         <div className="mb-[6px] flex items-center justify-between gap-5">
           <p className="basis-[30%]">Đồ uống</p>
-          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden">
+          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden bg-[#ebebeb] ">
             <span
               className={`text-sm  bg-primary h-full block `}
               style={{ width: `calc(100% * (${judges.food} / 5 ))` }}
             ></span>
           </div>
-          <span className="basis-[5%]">
+          <span className="basis-[5%] font-bold">
             {parseFloat(judges.food).toFixed(1)}
           </span>
         </div>
 
         <div className="mb-[6px] flex items-center justify-between gap-5">
           <p className="basis-[30%]">Phục vụ</p>
-          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden">
+          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden bg-[#ebebeb] ">
             <span
               className={`text-sm  bg-primary h-full block `}
               style={{ width: `calc(100% * (${judges.service} / 5 ))` }}
             ></span>
           </div>
-          <span className="basis-[5%]">
+          <span className="basis-[5%] font-bold">
             {parseFloat(judges.service).toFixed(1)}
           </span>
         </div>
 
         <div className="mb-[6px] flex items-center justify-between gap-5">
           <p className="basis-[30%]">Giá cả</p>
-          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden">
+          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden bg-[#ebebeb] ">
             <span
               className={`text-sm  bg-primary h-full block `}
               style={{ width: `calc(100% * (${judges.price} / 5 ))` }}
             ></span>
           </div>
-          <span className="basis-[5%]">
+          <span className="basis-[5%] font-bold">
             {parseFloat(judges.price).toFixed(1)}
           </span>
         </div>
@@ -131,62 +152,62 @@ function Judge({ item = {}, onShow = null }) {
 
         <div className="mb-[6px] flex items-center justify-between gap-5">
           <p className="basis-[30%]">Vị trí</p>
-          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden">
+          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden bg-[#ebebeb] ">
             <span
               className={`text-sm   h-full block ${
-                state.length > 0 ? "bg-primary" : "bg-[#f5f5f5]"
+                state.length > 0 ? "bg-primary" : "bg-[#ebebeb]"
               }`}
             ></span>
           </div>
-          <span className="basis-[5%]">0</span>
+          <span className="basis-[5%] font-bold">0</span>
         </div>
 
         <div className="mb-[6px] flex items-center justify-between gap-5">
           <p className="basis-[30%]">Không gian</p>
-          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden">
+          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden bg-[#ebebeb] ">
             <span
               className={`text-sm   h-full block ${
-                state.length > 0 ? "bg-primary" : "bg-[#f5f5f5]"
+                state.length > 0 ? "bg-primary" : "bg-[#ebebeb]"
               }`}
             ></span>
           </div>
-          <span className="basis-[5%]">0</span>
+          <span className="basis-[5%] font-bold">0</span>
         </div>
 
         <div className="mb-[6px] flex items-center justify-between gap-5">
           <p className="basis-[30%]">Đồ uống</p>
-          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden">
+          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden bg-[#ebebeb] ">
             <span
               className={`text-sm   h-full block ${
-                state.length > 0 ? "bg-primary" : "bg-[#f5f5f5]"
+                state.length > 0 ? "bg-primary" : "bg-[#ebebeb]"
               }`}
             ></span>
           </div>
-          <span className="basis-[5%]">0</span>
+          <span className="basis-[5%] font-bold">0</span>
         </div>
 
         <div className="mb-[6px] flex items-center justify-between gap-5">
           <p className="basis-[30%]">Phục vụ</p>
-          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden">
+          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden bg-[#ebebeb]">
             <span
               className={`text-sm   h-full block ${
-                state.length > 0 ? "bg-primary" : "bg-[#f5f5f5]"
+                state.length > 0 ? "bg-primary" : "bg-[#ebebeb]"
               }`}
             ></span>
           </div>
-          <span className="basis-[5%]">0</span>
+          <span className="basis-[5%] font-bold">0</span>
         </div>
 
         <div className="mb-[6px] flex items-center justify-between gap-5">
           <p className="basis-[30%]">Giá cả</p>
-          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden">
+          <div className="basis-[65%] w-full rounded-full h-[8px] overflow-hidden bg-[#ebebeb]">
             <span
               className={`text-sm   h-full block ${
-                state.length > 0 ? "bg-primary" : "bg-[#f5f5f5]"
+                state.length > 0 ? "bg-primary" : "bg-[#ebebeb]"
               }`}
             ></span>
           </div>
-          <span className="basis-[5%]">0</span>
+          <span className="basis-[5%] font-bold">0</span>
         </div>
       </div>
     </div>

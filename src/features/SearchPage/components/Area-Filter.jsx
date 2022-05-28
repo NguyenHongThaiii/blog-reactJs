@@ -60,7 +60,7 @@ function AreaFilter({
           <h4 className="py-3 pl-2 pr-10 text-[rgba(0,0,0,.85)] font-semibold  grow ">
             {title}
           </h4>
-          <i className="fa-solid fa-angle-down mr-4"></i>
+          <i className="fa-solid fa-angle-down "></i>
         </div>
       </Collapse>
       <UnmountClosed isOpened={show}>

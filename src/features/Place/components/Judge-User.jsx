@@ -1,30 +1,59 @@
-import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { FaHeart, FaReplyAll, FaEllipsisH } from "react-icons/fa";
+import React, { useEffect, useRef, useState } from "react";
+import { FaEllipsisH, FaHeart, FaReplyAll } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import ReadMore from "./Read-More";
+import ReplyUser from "./Reply-User";
 
 JudgeUser.propTypes = {
   item: PropTypes.object,
   onClick: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
-function JudgeUser({ item = {}, onClick = null }) {
+function JudgeUser({ item = {}, onClick = null, onSubmit = null }) {
   const user = useSelector((state) => state.auth.current);
   const [show, setShow] = useState(false);
+  const [isReply, setIsReply] = useState(false);
+  const [more, setMore] = useState(true);
+  const moreRef = useRef(null);
 
   const handleClickFavor = (reviewId) => {
     if (!onClick) return null;
     onClick(user._id, reviewId);
   };
 
+  const handleShowReply = () => {
+    setIsReply(true);
+  };
+
+  useEffect(() => {
+    handleClick();
+
+    window.addEventListener("resize", handleClick);
+
+    return () => window.removeEventListener("resize", handleClick);
+  }, []);
+
+  const handleClick = () => {
+    if (moreRef && moreRef.current && moreRef.current?.offsetHeight > 90) {
+      console.log(moreRef.current?.offsetHeight);
+      setMore(false);
+    } else {
+      setMore(true);
+    }
+  };
   return (
     <>
-      <div className="mt-1 pt-4 border-t-[1px] border-t-[#ddd]">
-        <div className="py-[5px] px-[10px] bg-[#eee] rounded-[12px] ">
-          <div className="flex items-center justify-between border-b-[1px] border-b-[#e0e0e0] py-1 ">
+      <div className="mt-1 pt-4 border-t-[1px] border-t-[#ddd] lg:pt-5 lg:mt-5">
+        <div className="py-[5px] px-[10px] bg-[#eee] lg:bg-white  rounded-[12px] ">
+          <div className="flex items-center justify-between border-b-[1px] border-b-[#e0e0e0] py-1  ">
             <div className="flex items-center">
-              <Link to="/" className="mr-[11px] w-10 h-10">
+              <Link
+                to="/"
+                className="mr-[11px] w-10 h-10 lg:w-[64px] lg:h-[64px]"
+              >
                 <img
                   src={`${import.meta.env.VITE_URL_USERS}${item?.user?.photo}`}
                   alt={item?.user?.name}
@@ -32,7 +61,7 @@ function JudgeUser({ item = {}, onClick = null }) {
                 />
               </Link>
               <div className="flex flex-col gap-y-1  ">
-                <h3 className="text-base font-semibold hover:underline cursor-pointer">
+                <h3 className="text-base font-semibold hover:underline cursor-pointer lg:text-[18px]">
                   {item?.user?.name}
                 </h3>
                 <span className="text-xs font-normal text-[#898c95] mb-[2px] block hover:underline cursor-pointer">
@@ -46,7 +75,14 @@ function JudgeUser({ item = {}, onClick = null }) {
             </div>
           </div>
 
-          <div className="py-[9px] px-[2px]">{item?.review}</div>
+          <div>
+            <div
+              ref={moreRef}
+              className={`relative py-[9px] px-[2px] lg:bg-[#f5f5f7] lg:py-[5px] lg:px-[15px] lg:rounded-br-[10px] lg:rounded-bl-[10px] `}
+            >
+              <ReadMore>{item?.review}</ReadMore>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -64,12 +100,28 @@ function JudgeUser({ item = {}, onClick = null }) {
             )}
             Thích
           </button>
-          <button className="before:content-['●'] before:inline-block before:text-[#c1c1c1] before:mx-[6px] before:text-[12px] first:before:hidden ">
+          <button
+            onClick={() => {
+              handleShowReply();
+              setShow(true);
+            }}
+            className="before:content-['●'] before:inline-block before:text-[#c1c1c1] before:mx-[6px] before:text-[12px] first:before:hidden "
+          >
             Trả lời
           </button>
         </div>
         <FaEllipsisH className="relative cursor-pointer" />
       </div>
+
+      {isReply && (
+        <ReplyUser
+          isReply={isReply}
+          review={item}
+          onSubmit={onSubmit}
+          hideReply={() => setIsReply(false)}
+        />
+      )}
+
       {item.listReplies.length > 0 && show === false && (
         <div
           onClick={() => setShow(true)}
@@ -91,7 +143,10 @@ function JudgeUser({ item = {}, onClick = null }) {
               <div className="py-[5px] px-[10px] bg-[#eee] rounded-[12px] ">
                 <div className="flex items-center justify-between border-b-[1px] border-b-[#e0e0e0] py-1 ">
                   <div className="flex items-center">
-                    <Link to="/" className="mr-[11px] w-10 h-10">
+                    <Link
+                      to="/"
+                      className="mr-[11px] w-10 h-10 lg:w-[64px] lg:h-[64px]"
+                    >
                       <img
                         src={`${import.meta.env.VITE_URL_USERS}${
                           reply?.photoUser
@@ -101,7 +156,7 @@ function JudgeUser({ item = {}, onClick = null }) {
                       />
                     </Link>
                     <div className="flex flex-col gap-y-1  ">
-                      <h3 className="text-base font-semibold hover:underline cursor-pointer">
+                      <h3 className="text-base font-semibold hover:underline cursor-pointer lg:text-[18px]">
                         {reply?.nameUser}
                       </h3>
                       <span className="text-xs font-normal text-[#898c95] mb-[2px] block hover:underline cursor-pointer">
@@ -111,7 +166,7 @@ function JudgeUser({ item = {}, onClick = null }) {
                   </div>
                 </div>
 
-                <div className="py-[9px] px-[2px]">{reply?.review}</div>
+                <div className="py-[9px] px-[2px]">{reply?.reply}</div>
               </div>
             </div>
           </div>

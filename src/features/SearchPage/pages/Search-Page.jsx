@@ -9,8 +9,8 @@ import SearchPageContent from "../components/Search-Page-Content";
 import SearchPageFilter from "../components/Search-Page-Filter";
 
 SearchPage.propTypes = {};
-export const FiltersContext = createContext({});
-export const ResetContext = createContext({});
+export const FiltersContext = createContext([]);
+export const ResetContext = createContext([]);
 
 function SearchPage(props) {
   const [state, setState] = useState({});
@@ -22,8 +22,10 @@ function SearchPage(props) {
     const queryParams = queryString.parse(location.search);
     return {
       limit: 5,
+      name: queryParams.name ? queryParams.name : undefined,
       topic: queryParams.topic ? `["${queryParams.topic}"]` : undefined,
       area: queryParams.area ? `["${queryParams.area}"]` : undefined,
+      type: queryParams.type ? `["${queryParams.type}"]` : undefined,
     };
   });
   const scrollRef = useRef(null);
@@ -37,9 +39,11 @@ function SearchPage(props) {
       } catch (error) {
         console.log("Error 💥", error.message);
       }
-      scrollRef.current.scrollIntoView({
-        behavior: "smooth",
-      });
+      if (scrollRef && scrollRef.current) {
+        scrollRef.current.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
     })();
   }, [filters]);
   const handleOnChange = (value) => {

@@ -1,11 +1,14 @@
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
 import Pagination from "../../../components/common/Pagination";
 import SelectControl from "../../../components/Form-Control/Select-Control";
+import { getLocalStorage, removeLocalStorage } from "../../../utils";
 import { FiltersContext } from "../pages/Search-Page";
 import CardFilter from "./Card-Filter";
 import SearchPageItem from "./Search-Page-Item";
+import queryString from "query-string";
 SearchPageContent.propTypes = {
   data: PropTypes.array,
   onChange: PropTypes.func,
@@ -33,6 +36,8 @@ const OPTIONS_LIST = [
 
 function SearchPageContent({ data = [], onChange = null, count = 1 }) {
   const { handleSubmit, control } = useForm({});
+  const navigate = useNavigate();
+  const location = useLocation();
   const [filters] = useContext(FiltersContext);
   const [page, setPage] = useState(1);
   const handleOnChange = (value) => {
@@ -55,7 +60,10 @@ function SearchPageContent({ data = [], onChange = null, count = 1 }) {
       type: undefined,
       price: undefined,
       timeStart: undefined,
+      name: "",
     });
+    removeLocalStorage("search_now");
+    navigate(`/search`);
   };
   return (
     <div className="">
@@ -63,10 +71,12 @@ function SearchPageContent({ data = [], onChange = null, count = 1 }) {
         <span className="lg:text-[18px] text-base  ">
           <strong className="mr-1">{data.length}</strong>
           địa điểm khớp với tìm kiếm của bạn:
-          {(filters.topic ||
-            filters.area ||
-            filters.type ||
-            filters.convenient) && (
+          {(filters?.topic ||
+            filters?.area ||
+            filters?.type ||
+            filters?.convenient ||
+            queryString.parse(location.search)?.name?.length > 0 ||
+            getLocalStorage("search_now")) && (
             <span
               onClick={handleReset}
               className="mx-2 font-bold text-sm text-black cursor-pointer"

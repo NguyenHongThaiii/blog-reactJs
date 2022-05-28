@@ -9,17 +9,17 @@ const NAME_LIST = ["topic", "area", "convenient", "type"];
 function CardFilter(props) {
   const [filters, setFilters] = useContext(FiltersContext);
   const newFilters = NAME_LIST.map((item) => {
-    if (filters[item]) {
+    if (filters && filters.length > 0 && filters[item]) {
       return { [item]: JSON.parse(filters[item]) };
     }
   });
   const handleOnRemove = (index, key) => {
     switch (key) {
       case "topic": {
-        newFilters[0].topic.splice(index, 1);
-        newFilters[0].topic = JSON.stringify(newFilters[0].topic);
+        newFilters[0]?.topic.splice(index, 1);
+        newFilters[0].topic = JSON.stringify(newFilters[0]?.topic);
         setFilters((prev) => {
-          if (JSON.parse(newFilters[0].topic).length > 0) {
+          if (JSON.parse(newFilters[0]?.topic).length > 0) {
             return { ...prev, ...newFilters[0] };
           }
           return { ...prev, topic: null };
@@ -27,10 +27,10 @@ function CardFilter(props) {
         break;
       }
       case "area": {
-        newFilters[1].area.splice(index, 1);
-        newFilters[1].area = JSON.stringify(newFilters[1].area);
+        newFilters[1]?.area.splice(index, 1);
+        newFilters[1].area = JSON.stringify(newFilters[1]?.area);
         setFilters((prev) => {
-          if (JSON.parse(newFilters[1].area).length > 0) {
+          if (JSON.parse(newFilters[1]?.area).length > 0) {
             return { ...prev, ...newFilters[1] };
           }
           return { ...prev, area: null };
@@ -38,10 +38,10 @@ function CardFilter(props) {
         break;
       }
       case "convenient": {
-        newFilters[2].convenient.splice(index, 1);
-        newFilters[2].convenient = JSON.stringify(newFilters[2].convenient);
+        newFilters[2]?.convenient.splice(index, 1);
+        newFilters[2].convenient = JSON.stringify(newFilters[2]?.convenient);
         setFilters((prev) => {
-          if (JSON.parse(newFilters[2].convenient).length > 0) {
+          if (JSON.parse(newFilters[2]?.convenient).length > 0) {
             return { ...prev, ...newFilters[2] };
           }
           return { ...prev, convenient: null };
@@ -50,10 +50,10 @@ function CardFilter(props) {
       }
 
       case "type": {
-        newFilters[3].type.splice(index, 1);
-        newFilters[3].type = JSON.stringify(newFilters[3].type);
+        newFilters[3]?.type.splice(index, 1);
+        newFilters[3].type = JSON.stringify(newFilters[3]?.type);
         setFilters((prev) => {
-          if (JSON.parse(newFilters[3].type).length > 0) {
+          if (JSON.parse(newFilters[3]?.type).length > 0) {
             return { ...prev, ...newFilters[3] };
           }
           return { ...prev, type: null };

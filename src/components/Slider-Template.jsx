@@ -11,21 +11,34 @@ SliderTemplate.propTypes = {
   slidesPerView: PropTypes.number,
   title: PropTypes.string,
   children: PropTypes.func,
+  isHeading: PropTypes.bool,
+  isLimitWidth: PropTypes.bool,
+  isAutoplay: PropTypes.bool,
 };
 
-function SliderTemplate({ state, slidesPerView = 3, title, children }) {
+function SliderTemplate({
+  state,
+  slidesPerView = 3,
+  title,
+  isHeading = true,
+  children,
+  isLimitWidth = true,
+  isAutoplay = true,
+}) {
   return (
-    <section className="pb-[2px] lg:pb-9">
-      <div className="max-w-[1200px] mx-auto px-4">
-        <h2
-          className="text-left pl-[4px] border-l-4 border-primary font-bold text-[18px] text-text relative
+    <section className="">
+      <div className={`${isLimitWidth ? "max-w-[1200px]" : ""} mx-auto px-4`}>
+        {isHeading && (
+          <h2
+            className="text-left pl-[4px] border-l-4 border-primary font-bold text-[18px] text-text relative
           mt-[14px] mb-[10px] lg:my-10 lg:text-[28px] lg:text-center before:hidden before:lg:block lg:border-none
         before:absolute before:w-[90px] before:h-[2.5px] before:bg-primary before:mx-auto 
         before:top-auto  before:right-0 before:left-0 before:bottom-[-10px] before:rounded-[10px]
         "
-        >
-          {title}
-        </h2>
+          >
+            {title}
+          </h2>
+        )}
         <Swiper
           pagination={true}
           rewind={true}
@@ -33,10 +46,7 @@ function SliderTemplate({ state, slidesPerView = 3, title, children }) {
           modules={[Navigation, Pagination, Autoplay]}
           slidesPerView={slidesPerView}
           spaceBetween={24}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
+          autoplay={isAutoplay}
           className={`mySwiper+${title}`}
         >
           {state.map((item, index) => (

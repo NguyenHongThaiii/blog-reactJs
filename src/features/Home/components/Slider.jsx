@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import SearchModal from "./Search-Modal";
 import SearchModalMobile from "./Search-Modal-Mobile";
+import { getLocalStorage } from "../../../utils";
+import { useNavigate } from "react-router-dom";
 Slider.propTypes = {};
 
 function Slider(props) {
   const [state, setState] = useState("Tìm Góc Cafe - Thỏa Sức Sống Ảo...");
   const [show, setShow] = useState(false);
+
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
     const timerId = setInterval(() => {
       setState((prev) => {
@@ -23,6 +27,14 @@ function Slider(props) {
 
   const handleOnClick = () => {
     setShow((prev) => !prev);
+  };
+
+  const handleSubmit = () => {
+    if (getLocalStorage("search_now")) {
+      navigate(`/search?name=${getLocalStorage("search_now")}`);
+      return;
+    }
+    navigate(`/search?name=`);
   };
   return (
     <section className="relative  flex items-center justify-center h-[240px] lg:h-[500px] z-10 ">
@@ -88,7 +100,10 @@ function Slider(props) {
               onSearch={(value) => setSearch(value)}
             />
           </div>
-          <button className="shrink text-xl bg-primary text-white h-[65px] w-[200px] rounded-[10px] font-semibold hidden lg:block">
+          <button
+            onClick={handleSubmit}
+            className="shrink text-xl bg-primary text-white h-[65px] w-[200px] rounded-[10px] font-semibold hidden lg:block"
+          >
             <i className="fa-solid fa-magnifying-glass pr-[6px] text-2xl inline-block w-[30px]"></i>
             Tìm quán
           </button>

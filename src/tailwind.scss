@@ -1,5 +1,7 @@
 .swiper {
   z-index: 1000;
+  height: 100%;
+
   & > .swiper-button-prev {
     @apply w-10 h-10 bg-white rounded-full text-[#2b2b2b];
     &:after {
@@ -20,7 +22,6 @@
     }
   }
 }
-
 .animation-origin {
   @apply duration-300 relative;
   &:hover {
@@ -280,5 +281,58 @@
     box-shadow: none;
     border: none;
     background: transparent;
+  }
+}
+
+.sidebar {
+  background-color: rgba(35, 55, 75, 0.9);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 12px;
+  border-radius: 4px;
+}
+
+.marker {
+  background-image: url(../public//img/marker.svg);
+  background-size: cover;
+  width: 32px;
+  height: 50px;
+  cursor: pointer;
+}
+.mapboxgl-popup-content {
+  min-width: 200px;
+}
+.mapboxgl-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+// .mapboxgl-control-container {
+//   display: none;
+// }
+
+.mapboxgl-popup-close-button {
+  padding: 12px;
+  width: 20px;
+  height: 20px;
+  font-size: 24px;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eee;
+  border: none;
+  outline: none;
+
+  &:hover {
+    background: #e1e1e1;
   }
 }

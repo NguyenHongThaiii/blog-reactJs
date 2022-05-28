@@ -1,5 +1,6 @@
 import { useEffect, lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
+import TextareaCustomControl from "./components/Form-Control/Textarea-Custom-Control";
 import { useHide } from "./context/Global-Provider";
 
 const HomePage = lazy(() => import("./features/Home/pages/Home-Page"));
@@ -26,6 +27,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/place/:name" element={<PlacePage />} />
+      <Route path="/test" element={<TextareaCustomControl />} />
     </Routes>
   );
 }

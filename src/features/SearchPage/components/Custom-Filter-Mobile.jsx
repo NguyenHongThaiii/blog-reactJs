@@ -2,7 +2,9 @@ import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { MdOutlineClose } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import { useHide } from "../../../context/Global-Provider";
+import { removeLocalStorage } from "../../../utils";
 import { ResetContext } from "../pages/Search-Page";
 import AreaFilter from "./Area-Filter";
 import ConvenientFilter from "./Convenient-Filter";
@@ -28,6 +30,7 @@ function CustomFilterMobile({
 
   const [filters, setFilers] = useState({});
   const [hide, setHide] = useHide();
+  const navigate = useNavigate();
 
   const handleOnChange = (value) => {
     // setFilers((prev) => ({ ...prev, ...value }));
@@ -52,9 +55,12 @@ function CustomFilterMobile({
       type: undefined,
       price: undefined,
       timeStart: undefined,
+      name: "",
     });
     onShow();
     setHide(false);
+    removeLocalStorage("search_now");
+    navigate("/search");
   };
   return createPortal(
     <div
