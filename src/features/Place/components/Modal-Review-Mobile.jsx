@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { FaTimes } from "react-icons/fa";
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { FaTimes } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import io from "socket.io-client";
 import CustomRate from "./Custom-Rate";
 import YourJudge from "./Your-Judge";
-import debounce from "lodash.debounce";
-import io from "socket.io-client";
-import { useSelector } from "react-redux";
 
-let socket = io.connect("http://localhost:5000");
+let socket = io.connect("http://localhost:5000", {
+  extraHeaders: {
+    headers: { "Content-Type": "multipart/form-data" },
+  },
+});
 
 ModalReviewMobile.propTypes = {
   item: PropTypes.object,
@@ -18,6 +21,7 @@ ModalReviewMobile.propTypes = {
 
 function ModalReviewMobile({ item = {}, onShow = null, onSubmit = null }) {
   const user = useSelector((state) => state.auth.current);
+  const formRef = useRef(null);
   const [values, setValues] = useState({
     food: 5,
     service: 5,
@@ -30,9 +34,12 @@ function ModalReviewMobile({ item = {}, onShow = null, onSubmit = null }) {
   if (typeof document === "undefined")
     return <div className="modal">Modal</div>;
   useEffect(() => {
-    socket = io.connect("http://localhost:5000");
+    socket = io.connect("http://localhost:5000", {
+      extraHeaders: {
+        headers: { "Content-Type": "multipart/form-data" },
+      },
+    });
     socket.on("createReview", (data) => {
-      // console.log(data);
       onSubmit(data);
       onShow();
     });
@@ -47,6 +54,7 @@ function ModalReviewMobile({ item = {}, onShow = null, onSubmit = null }) {
     try {
       if (values.review.trim().length < 10) return null;
       console.log({ ...values, blogId: item._id, userId: user._id });
+
       socket.emit("createReview", {
         ...values,
         blogId: item._id,
@@ -73,7 +81,7 @@ function ModalReviewMobile({ item = {}, onShow = null, onSubmit = null }) {
             </div>
           </div>
 
-          <div className="p-4">
+          <form className="p-4" ref={formRef}>
             <div className="mb-[10px]">
               <h3 className="text-[18px] text-[#898c95] font-semibold">
                 Xếp hạng của bạn
@@ -106,7 +114,7 @@ function ModalReviewMobile({ item = {}, onShow = null, onSubmit = null }) {
               />
             </div>
             <YourJudge item={item} onChange={handleOnChange} />
-          </div>
+          </form>
           <div className="p-[10px] border-t-[1px] border-t-[rgba(0,0,0,.1)] flex items-center justify-end">
             <button
               disabled={values.review.trim().length > 10 ? false : true}

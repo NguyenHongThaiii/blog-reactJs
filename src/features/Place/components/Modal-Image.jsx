@@ -8,10 +8,21 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import styled from "./Modal-Image.module.scss";
 ModalImage.propTypes = {
   data: PropTypes.object,
+  imageList: PropTypes.array,
   hideModalImage: PropTypes.func,
+  index: PropTypes.number,
+  url: PropTypes.string,
+  length: PropTypes.number,
 };
 
-function ModalImage({ data = {}, index = 0, hideModalImage = null }) {
+function ModalImage({
+  data = {},
+  index = 0,
+  hideModalImage = null,
+  imageList = [],
+  url = `${import.meta.env.VITE_URL_BLOGS}`,
+  length = 0,
+}) {
   const imageRef = useRef(null);
   const tempRef = useRef(null);
   const [indexCurr, setIndexCurr] = useState(0);
@@ -28,22 +39,19 @@ function ModalImage({ data = {}, index = 0, hideModalImage = null }) {
   };
   return createPortal(
     <div
-      className={`fixed inset-0 bg-[rgba(0,0,0,.85)] modal-image ${styled.modalImage} z-[1000]`}
+      className={`fixed inset-0 bg-[rgba(0,0,0,.85)] modal-image ${styled.modalImage} z-[1000000]`}
     >
       <Swiper
         modules={[Navigation]}
         onSlideChange={(swiper) => handleSwiperChange(swiper)}
-        // autoplay={false}
-        // allowTouchMove={false}
         initialSlide={index}
         navigation={true}
-        // grabCursor={false}
       >
         <div
           className={`absolute bg-[rgba(0,0,0,.5)] top-0 w-full flex items-center justify-between h-[50px] z-[100] overflow-hidden`}
         >
           <div className="pl-5 leading-[50px] text-sm text-white ">
-            {indexCurr + 1} / {data?.imgPreview?.length}
+            {indexCurr + 1} / {length}
           </div>
           <div className="h-full flex items-center justify-center">
             <button
@@ -67,14 +75,14 @@ function ModalImage({ data = {}, index = 0, hideModalImage = null }) {
           </div>
         </div>
 
-        {data?.imgPreview?.map((image, index) => (
+        {imageList?.map((image, index) => (
           <SwiperSlide className="flex " key={image}>
             <div
               className="flex justify-center items-center m-auto "
               ref={index === indexCurr ? imageRef : tempRef}
             >
               <img
-                src={`${import.meta.env.VITE_URL_BLOGS}${image}`}
+                src={`${url}${image}`}
                 alt={`${image}`}
                 className="h-[640px]  w-full "
               />

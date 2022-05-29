@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaEllipsisH, FaHeart, FaReplyAll } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import ModalImage from "./Modal-Image";
 import ReadMore from "./Read-More";
 import ReplyUser from "./Reply-User";
 
@@ -10,11 +11,16 @@ JudgeUser.propTypes = {
   item: PropTypes.object,
   onClick: PropTypes.func,
   onSubmit: PropTypes.func,
+  blog: PropTypes.object,
 };
 
-function JudgeUser({ item = {}, onClick = null, onSubmit = null }) {
+function JudgeUser({ item = {}, onClick = null, onSubmit = null, blog = {} }) {
   const user = useSelector((state) => state.auth.current);
   const [show, setShow] = useState(false);
+  const [isShowModalImage, setIsShowModalImage] = useState({
+    show: false,
+    index: 0,
+  });
   const [isReply, setIsReply] = useState(false);
   const [more, setMore] = useState(true);
   const moreRef = useRef(null);
@@ -38,11 +44,13 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null }) {
 
   const handleClick = () => {
     if (moreRef && moreRef.current && moreRef.current?.offsetHeight > 90) {
-      console.log(moreRef.current?.offsetHeight);
       setMore(false);
     } else {
       setMore(true);
     }
+  };
+  const handleShowModalImage = (index) => {
+    setIsShowModalImage((prev) => ({ ...prev, show: true, index }));
   };
   return (
     <>
@@ -81,6 +89,34 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null }) {
               className={`relative py-[9px] px-[2px] lg:bg-[#f5f5f7] lg:py-[5px] lg:px-[15px] lg:rounded-br-[10px] lg:rounded-bl-[10px] `}
             >
               <ReadMore>{item?.review}</ReadMore>
+              {item?.photo?.length > 0 && (
+                <div className="flex items-center whitespace-normal mt-[6px] gap-x-2 ">
+                  {item?.photo?.slice(0, 3)?.map((img, index) => (
+                    <div
+                      onClick={() => handleShowModalImage(index)}
+                      className={`rounded-[6px] overflow-hidden relative lg:w-[116px] lg:h-[116px] w-[100px] h-[100px]  ${
+                        index < 3 ? "block" : "hidden"
+                      }`}
+                      key={index}
+                    >
+                      {index === 2 && item?.photo?.length > 3 && (
+                        <div className="absolute inset-0 bg-[rgba(0,0,0,.4)] transition-all text-white flex items-center justify-center font-semibold cursor-pointer text-base">
+                          +{item?.photo?.length - 2} ảnh
+                        </div>
+                      )}
+
+                      {(index !== 2 || item?.photo?.length <= 3) && (
+                        <div className="absolute inset-0 cursor-pointer hover:bg-[rgba(0,0,0,.4)] transition-all"></div>
+                      )}
+                      <img
+                        src={`${import.meta.env.VITE_URL_REVIEWS}${img}`}
+                        alt={`${img}`}
+                        className=" w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -171,6 +207,18 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null }) {
             </div>
           </div>
         ))}
+      {isShowModalImage.show && (
+        <ModalImage
+          imageList={item?.photo}
+          data={blog}
+          url={import.meta.env.VITE_URL_REVIEWS}
+          length={item?.photo?.length}
+          index={isShowModalImage?.index}
+          hideModalImage={() =>
+            setIsShowModalImage((prev) => ({ ...prev, show: false, index: 0 }))
+          }
+        />
+      )}
     </>
   );
 }

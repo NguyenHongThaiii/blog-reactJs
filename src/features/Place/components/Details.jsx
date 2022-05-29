@@ -65,12 +65,12 @@ function Details({ item = {} }) {
         <div className="flex items-center gap-x-[14px] mb-[6px]">
           <FaTags />
 
-          <div className="w-full flex  items-center">
+          <div className="w-full flex  items-center flex-wrap">
             {item?.type?.map((item, index) => (
               <Link
                 to={`/search?type=${item}`}
                 key={index}
-                className="flex items-center hover:underline transition-all duration-300 text-[#0770cd] before:content-['●'] before:inline-block before:text-[#c1c1c1] before:mx-[6px] before:text-[12px] first:before:hidden "
+                className="flex items-center whitespace-normal hover:underline transition-all duration-300 text-[#0770cd] before:content-['●'] before:inline-block before:text-[#c1c1c1] before:mx-[6px] before:text-[12px] first:before:hidden "
               >
                 <span className=" ">{item}</span>
               </Link>

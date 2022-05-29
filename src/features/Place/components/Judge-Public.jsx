@@ -23,7 +23,6 @@ function JudgePublic({
   hideShow = null,
 }) {
   const [reviews, setReviews] = useState([]);
-
   const [count, setCount] = useState(1);
   const [filters, setFilers] = useState({ limit: 5, sort: "createdAt" });
   const [page, setPage] = useState(1);

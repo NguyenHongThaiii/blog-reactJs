@@ -33,11 +33,12 @@ function YourJudge({ item = {}, onChange = null }) {
       return URL.createObjectURL(e.target.files[index]);
     });
     const arrayFiles = Array.from(e.target.files).map((item, index) => {
-      return e.target.files[0];
+      return e.target.files[index];
     });
     setFiles((prev) => [...prev, ...files]);
     if (!onChange) return;
     onChange({ files: arrayFiles });
+    console.log(e.target.buffer);
   };
   return (
     <div>

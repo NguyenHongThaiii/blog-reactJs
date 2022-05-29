@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { FaMapMarkerAlt, FaTimes } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
+
 mapboxgl.accessToken = `${import.meta.env.VITE_MAPBOX}`;
 
 MapBox.propTypes = {
@@ -66,8 +68,6 @@ function MapBox({ data = {}, hideMap = null }) {
     if (!map.current) return; // wait for map to initialize
     bounds.extend([lng, lat]);
 
-    map.current.addControl(new mapboxgl.NavigationControl(), "top-left");
-    map.current.addControl(new mapboxgl.FullscreenControl());
     map.current.addControl(
       new mapboxgl.GeolocateControl({
         positionOptions: {
@@ -75,14 +75,17 @@ function MapBox({ data = {}, hideMap = null }) {
         },
         trackUserLocation: true,
         showUserHeading: true,
-      })
+      }),
+      "top-left"
     );
+    map.current.addControl(new mapboxgl.NavigationControl(), "top-left");
+    map.current.addControl(new mapboxgl.FullscreenControl());
 
     if (map.current) return; // wait for map to initialize
   }, []);
   return createPortal(
     <div className="bg-[rgba(0,0,0,.8)] fixed inset-0 flex items-center justify-center z-[1000]">
-      <div className="bg-[#eee] rounded-[6px] w-[90%] h-[90%] overflow-hidden">
+      <div className="bg-[#eee] rounded-[6px] w-[90%] h-[90%] overflow-hidden relative">
         <div className="relative flex items-center justify-center h-[60px] border-b-[1px] border-b-[#111] text-center pl-1 pr-[6px] py-5">
           <h1 className="text-[24px]  font-bold mb-[2px] text-center flex items-center gap-x-2">
             <FaMapMarkerAlt />
@@ -104,6 +107,16 @@ function MapBox({ data = {}, hideMap = null }) {
             ref={mapContainer}
             className="map-container  min-h-[200px] h-full "
           />
+        </div>
+
+        <div className=" hover:text-primary transition-all absolute bottom-[24px] left-1/2 translate-x-[-50%] text-lg cursor-pointer font-medium  pt-[2px] pb-1 px-[12px] text-[#333] bg-white rounded-[10px] shadow-[0_0_0_2px_rgb(0,0,0,0.1)] flex items-center justify-center gap-x-2">
+          <a
+            href={`https://www.google.com/maps/dir/?api=1&destination=${data?.startLocation?.coordinates[0]},${data?.startLocation?.coordinates[1]}`}
+            target="_blank"
+          >
+            Xem đường đi
+          </a>
+          <FaArrowRight className="animate-move" />
         </div>
       </div>
     </div>,
