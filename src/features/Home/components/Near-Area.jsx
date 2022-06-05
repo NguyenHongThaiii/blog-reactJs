@@ -19,8 +19,8 @@ function NearArea() {
       } catch (error) {
         console.log("Error 💥", error.message);
       }
-      return () => window.removeEventListener("resize", handleResize);
     })();
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
   const handleResize = () => {
     setNumberSlides(handleInnerHeightArea(window.innerWidth));

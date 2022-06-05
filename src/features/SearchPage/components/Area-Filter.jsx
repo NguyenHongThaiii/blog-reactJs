@@ -11,6 +11,8 @@ AreaFilter.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   mobile: PropTypes.bool,
+  type: PropTypes.string,
+  filters: PropTypes.object,
 };
 
 function AreaFilter({
@@ -19,13 +21,15 @@ function AreaFilter({
   name = "",
   onChange = null,
   mobile = false,
+  type = "checkbox",
+  filters = {},
 }) {
-  const [filters] = useContext(FiltersContext);
+  // const [filters] = useContext(FiltersContext);
   const [show, setShow] = useState(true);
 
   const handleOnChange = (value, event) => {
     if (!onChange) return null;
-    const queryParams = filters.area
+    const queryParams = filters?.area
       ? JSON.parse(filters.area).map((item) => `"${item}"`)
       : [];
     const array = [...queryParams];
@@ -41,6 +45,13 @@ function AreaFilter({
     });
 
     const res = [...new Set([...array])];
+
+    if (type === "radio") {
+      Object.keys(value).forEach((key) => {
+        onChange({ area: `["${key}"]` });
+      });
+      return;
+    }
     if (res.length > 0) {
       onChange({ area: `[${res}]` });
     } else {
@@ -82,10 +93,11 @@ function AreaFilter({
                 name={item}
                 id={item}
                 value={item}
+                type={type}
                 onChange={handleOnChange}
                 checked={
-                  filters.area
-                    ? JSON.parse(filters.area)?.includes(item)
+                  filters?.area
+                    ? JSON.parse(filters?.area)?.includes(item)
                     : false
                 }
               />
@@ -96,10 +108,11 @@ function AreaFilter({
                 name={item}
                 id={item.replaceAll(" ", "")}
                 value={item}
+                type={type}
                 onChange={handleOnChange}
                 checked={
-                  filters.area
-                    ? JSON.parse(filters.area)?.includes(item)
+                  filters?.area
+                    ? JSON.parse(filters?.area)?.includes(item)
                     : false
                 }
               />

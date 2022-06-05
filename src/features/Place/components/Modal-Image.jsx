@@ -78,13 +78,13 @@ function ModalImage({
         {imageList?.map((image, index) => (
           <SwiperSlide className="flex " key={image}>
             <div
-              className="flex justify-center items-center m-auto "
+              className="flex justify-center items-center m-auto w-[590px]"
               ref={index === indexCurr ? imageRef : tempRef}
             >
               <img
                 src={`${url}${image}`}
                 alt={`${image}`}
-                className="h-[640px]  w-full "
+                className="h-[100vh]  w-full object-cover "
               />
             </div>
           </SwiperSlide>

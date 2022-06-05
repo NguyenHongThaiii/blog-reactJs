@@ -15,6 +15,9 @@ import MapBox from "../components/MapBox";
 import ModalImage from "../components/Modal-Image";
 import ModalMenu from "../components/Modal-Menu";
 import Details from "./../components/Details";
+import SwiperImage from "../components/Swiper-Image";
+import ParticularLocation from "../components/Particular-Location";
+import SlideImage from "../components/Slide-Image";
 
 PlacePage.propTypes = {};
 
@@ -86,15 +89,14 @@ function PlacePage(props) {
     setIsShowModalMenu(false);
     setHide(false);
   };
-  console.log(state);
   return (
     <GlobalProvider>
       <LayoutUser>
         <div
-          className="lg:max-w-[1200px] lg:mx-auto pt-[10px] px-[2px]  pb-[70px]"
+          className="lg:max-w-[1200px] lg:mx-auto pt-[10px] px-[2px]  pb-[70px] lg:pb-0"
           ref={scrollRef}
         >
-          <div className="p-2 mb-[6px] shadow-[0_1px_4px_rgb(0,0,0,0.3)] rounded-[10px] ">
+          <div className="p-2 mb-[6px] lg:mb-5 shadow-[0_1px_4px_rgb(0,0,0,0.3)] rounded-[10px] ">
             <div className="flex items-center justify-between pl-2">
               <h1 className="lg:text-[28px] text-[22px] font-semibold ">
                 {state.name}
@@ -148,111 +150,27 @@ function PlacePage(props) {
               </div>
             </div>
 
-            <div className="mt-2 rounded-[10px] overflow-hidden h-[280px] pb-[10px] grid grid-cols-6 grid-rows-2 gap-2 ">
-              <div
-                onClick={() => handleShowModalImage(0)}
-                className={`cursor-pointer col-span-2 row-span-2 relative before:absolute before:inset-0 before:bg-[rgba(0,0,0,.4)]  before:transition-all before:opacity-0 hover:before:opacity-100`}
-              >
-                <img
-                  className="w-full h-full object-cover rounded-[10px]"
-                  src={
-                    state.image
-                      ? `${import.meta.env.VITE_URL_BLOGS}${
-                          state.imgPreview[0]
-                        }`
-                      : ""
-                  }
-                  alt={state.name}
-                />
-              </div>
+            <SlideImage
+              data={state}
+              handleShowModalImage={(index) => handleShowModalImage(index)}
+            />
 
-              <div
-                className={`cursor-pointer col-span-2 row-span-2 relative before:absolute before:inset-0 before:bg-[rgba(0,0,0,.4)]  before:transition-all before:opacity-0 hover:before:opacity-100`}
-                onClick={() => handleShowModalImage(1)}
-              >
-                <img
-                  className="w-full h-full object-cover rounded-[10px]"
-                  src={
-                    state.image
-                      ? `${import.meta.env.VITE_URL_BLOGS}${
-                          state.imgPreview[1]
-                        }`
-                      : ""
-                  }
-                  alt={state.name}
-                />
-              </div>
-
-              <div
-                className={`cursor-pointer col-span-2 row-span-1 relative before:absolute before:inset-0 before:bg-[rgba(0,0,0,.4)]  before:transition-all before:opacity-0 hover:before:opacity-100`}
-                onClick={() => handleShowModalImage(2)}
-              >
-                <img
-                  className="w-full h-full object-cover rounded-[10px]"
-                  src={
-                    state.image
-                      ? `${import.meta.env.VITE_URL_BLOGS}${
-                          state.imgPreview[2]
-                        }`
-                      : ""
-                  }
-                  alt={state.name}
-                />
-              </div>
-
-              <div
-                className={`cursor-pointer col-span-1 row-span-1 relative before:absolute before:inset-0 before:bg-[rgba(0,0,0,.4)]  before:transition-all before:opacity-0 hover:before:opacity-100`}
-                onClick={() => handleShowModalImage(3)}
-              >
-                <img
-                  className="w-full h-full object-cover rounded-[10px]"
-                  src={
-                    state.image
-                      ? `${import.meta.env.VITE_URL_BLOGS}${
-                          state.imgPreview[3]
-                        }`
-                      : ""
-                  }
-                  alt={state.name}
-                />
-              </div>
-
-              <div
-                className={`cursor-pointer col-span-1 row-span-1 relative`}
-                onClick={() => handleShowModalImage(4)}
-              >
-                <div className="absolute inset-0 opacity-90 bg-[rgba(0,0,0,.4)] flex items-center justify-center">
-                  <span className="text-white text-[20px] font-semibold">
-                    + {state?.imgPreview?.length - 4} ảnh
-                  </span>
-                </div>
-                <img
-                  onClick={() => handleShowModalImage(5)}
-                  className="w-full h-full object-cover rounded-[10px]"
-                  src={
-                    state.image
-                      ? `${import.meta.env.VITE_URL_BLOGS}${
-                          state.imgPreview[4]
-                        }`
-                      : ""
-                  }
-                  alt={state.name}
-                />
-              </div>
-            </div>
+            <SwiperImage data={state} />
           </div>
-          <div className={`lg:flex block justify-between gap-x-4 lg:mt-2`}>
+          <div
+            className={`flex flex-col lg:flex-row  justify-between gap-x-4 lg:mt-2 lg:mb-5  `}
+          >
             <Judge item={state} show={show} onShow={() => setShow(true)} />
 
             <Details item={state} />
-            <div className="flex-1 overflow-hidden rounded-[10px]"></div>
+            <ParticularLocation data={state} />
           </div>
 
           <div>
             <ConvenientSlider item={state} />
           </div>
 
-          <div className=" lg:flex block justify-between gap-x-2 lg:mt-2  ">
+          <div className=" lg:flex block justify-between gap-x-4  lg:mt-5  ">
             <JudgePublic
               item={state}
               show={show}
@@ -260,7 +178,7 @@ function PlacePage(props) {
               hideShow={() => setShow(false)}
             />
 
-            <div className="w-[33.33%] lg:block hidden sticky top-[20px]  position-[-webkit-sticky] h-fit mb-[6px] ">
+            <div className="w-[calc(33.33%_-_20px)] lg:block hidden sticky top-[20px]  position-[-webkit-sticky] h-fit mb-[6px]   ">
               <Judge item={state} show={show} onShow={() => setShow(true)} />
 
               <div className="p-4 shadow-[0_2px_8px_rgb(0,0,0,0.15)] bg-white rounded-[10px] ">
@@ -273,12 +191,30 @@ function PlacePage(props) {
             </div>
           </div>
 
-          <div className="lg:mt-2 shadow-[0_1px_4px_rgb(0,0,0,0.15)] py-2 px-4 bg-white rounded-[10px]">
-            <h2 className="text-[28px] font-semibold">Địa điểm lân cận</h2>
+          <div className="lg:mt-3 shadow-[0_1px_4px_rgb(0,0,0,0.15)] py-2 px-4 bg-white rounded-[10px]">
+            <h2 className="lg:text-[28px] text-[20px] font-semibold flex items-center justify-between">
+              Địa điểm lân cận
+              <Link
+                to="/"
+                className="font-normal text-sm text-primary curosr-pointer hover:underline transition-all lg:text-base"
+              >
+                Xem thêm
+              </Link>
+            </h2>
+            <div className="lg:block hidden">
+              <img
+                onClick={() => setIsMap(true)}
+                src={`${import.meta.env.VITE_BANNER_MAPBOX}${
+                  import.meta.env.VITE_MAPBOX
+                }`}
+                alt="mapbox"
+                className="w-full h-full object-cover cursor-pointer"
+              />
+            </div>
             <ConcernSlide data={concern} />
           </div>
 
-          <div className="lg:mt-4 mt-2 flex items-center justify-between lg:p-4 p-[14px] mb-3 shadow-[0_1px_4px_rgb(0,0,0,0.15)] rounded-[10px] bg-[linear-gradient(-4deg,#fbf4f4,#ffa8a8)] ">
+          <div className="lg:mt-5 lg:mb-10 mt-2 flex items-center justify-between lg:p-4 p-[14px] mb-3 shadow-[0_1px_4px_rgb(0,0,0,0.15)] rounded-[10px] bg-[linear-gradient(-4deg,#fbf4f4,#ffa8a8)] ">
             <div className="pr-12">
               <h3 className="text-lg font-semibold mb-1">
                 Đây có phải là quán cafe của bạn không?

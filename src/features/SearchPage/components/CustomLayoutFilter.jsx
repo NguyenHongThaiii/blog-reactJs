@@ -12,9 +12,10 @@ import PriceFilter from "./Price-Filter";
 CustomLayoutFilter.propTypes = {
   data: PropTypes.object,
   onChange: PropTypes.func,
+  filters: PropTypes.object,
 };
 
-function CustomLayoutFilter({ data = {}, onChange = null }) {
+function CustomLayoutFilter({ data = {}, onChange = null, filters = {} }) {
   const handleOnChange = (value, event) => {
     if (!onChange) return null;
 
@@ -53,30 +54,35 @@ function CustomLayoutFilter({ data = {}, onChange = null }) {
             data={data?.area || []}
             name="area"
             onChange={handleOnChange}
+            filters={filters}
           />
           <PurposeFilter
             title="Mục đích"
             data={data?.topic?.map((item) => item.name) || []}
             name="topic"
             onChange={handleOnChange}
+            filters={filters}
           />
           <PriceFilter
             title="Khoảng giá"
             data={data?.price || []}
             name="price"
             onChange={handleOnChange}
+            filters={filters}
           />
           <TypeFilter
             title="Kiểu quán"
             data={data?.type || []}
             name="type"
             onChange={handleOnChange}
+            filters={filters}
           />
           <ConvenientFilter
             title="Tiện ích"
             data={data?.convenient || []}
             name="convenient"
             onChange={handleOnChange}
+            filters={filters}
           />
         </div>
       </div>

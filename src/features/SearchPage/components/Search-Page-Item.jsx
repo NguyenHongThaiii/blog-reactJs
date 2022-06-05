@@ -15,8 +15,8 @@ function SearchPageItem({ data = {} }) {
   const user = useSelector((state) => state.auth.current);
   const dispatch = useDispatch();
   const ratingsAverage =
-    data.reviewList.length > 0 &&
-    data.reviewList.reduce((acc, rating) => {
+    data?.reviewList?.length > 0 &&
+    data?.reviewList?.reduce((acc, rating) => {
       return acc + rating.rating;
     }, 0);
 
@@ -31,7 +31,6 @@ function SearchPageItem({ data = {} }) {
     dispatch(createSaveBlog(data._id));
     console.log("success");
   };
-  console.log(data);
 
   return (
     <div className="relative hover-scale lg:mb-5 mb-[6px] flex bg-white rounded-[10px] shadow-xl hover:shadow-2xl cursor-pointer transition-all duration-300">

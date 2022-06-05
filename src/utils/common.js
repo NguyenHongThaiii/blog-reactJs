@@ -52,16 +52,16 @@ export const handleTransformStringToDate = (transformString) => {
   const date = new Date();
   const hoursCurr = date.getHours();
   const minutesCurr = date.getMinutes();
-  const startHours = start.split("-")[0];
-  const startMinutes = start.split("-")[1];
-  const endHours = end.split("-")[0];
-  const endMinutes = end.split("-")[1];
+  const startHours = start.split(":")[0];
+  const startMinutes = start.split(":")[1];
+  const endHours = end.split(":")[0];
+  const endMinutes = end.split(":")[1];
 
   if (
     hoursCurr < startHours ||
-    (hoursCurr > startHours && minutesCurr < startMinutes) ||
+    (hoursCurr === endHours && minutesCurr > endMinutes) ||
     hoursCurr > endHours ||
-    (hoursCurr < endHours && minutesCurr > endMinutes)
+    (hoursCurr === startHours && minutesCurr < startMinutes)
   )
     return false;
 

@@ -16,11 +16,11 @@ function Purpose() {
       } catch (error) {
         console.log("Error 💥", error.message);
       }
-      return () => window.removeEventListener("resize", handleResize);
     })();
     const handleResize = () => {
       setNumberSlides(handleInnerHeightSlides(window.innerWidth));
     };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
   return (
     <SliderTemplate

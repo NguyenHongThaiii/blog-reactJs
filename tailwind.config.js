@@ -101,13 +101,14 @@ module.exports = {
         move: "move 0.5s alternate infinite ",
       },
       screens: {
+        xs: "414px",
         md: "768px",
         // => @media (min-width: 768px) { ... }
 
         lg: "990px",
         // => @media (min-width: 1024px) { ... }
+        xl: "1280px",
       },
-      xl: "1280px",
     },
   },
   plugins: [require("@tailwindcss/line-clamp")],

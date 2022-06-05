@@ -23,15 +23,16 @@ function HeaderUser({ user = {} }) {
   };
   return (
     <>
-      <div
-        className={`cursor-pointer w-[40px] h-[40px] rounded-full overflow-hidden flex items-center justify-center bg-[#f0f2f5] ${styled.buttonHeaderHover}`}
+      <Link
+        to="/saved"
+        className={` block cursor-pointer w-[40px] h-[40px] rounded-full overflow-hidden flex items-center justify-center bg-[#f0f2f5] ${styled.buttonHeaderHover}`}
       >
         <img
           src="/img/saved.svg"
           alt={user.name}
           className="w-1/2 h-1/2 object-cover"
         />
-      </div>
+      </Link>
       <div
         className={`cursor-pointer w-[40px] h-[40px] rounded-full overflow-hidden flex items-center justify-center bg-[#f0f2f5] ${styled.buttonHeaderHover}`}
       >

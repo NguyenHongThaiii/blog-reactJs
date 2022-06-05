@@ -12,6 +12,7 @@ TimeStartFilter.propTypes = {
   name: PropTypes.string,
   col: PropTypes.bool,
   onChange: PropTypes.func,
+  filters: PropTypes.object,
 };
 
 function TimeStartFilter({
@@ -21,6 +22,7 @@ function TimeStartFilter({
   name = "",
   col = false,
   onChange = null,
+  filters = {},
 }) {
   const [show, setShow] = useState(true);
   const { control, handleSubmit, reset } = useForm({});

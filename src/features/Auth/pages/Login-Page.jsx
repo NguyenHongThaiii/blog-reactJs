@@ -28,19 +28,20 @@ function LoginPage({ onClick }) {
       const user = unwrapResult(resultAction);
     }
   };
+
   const handleClick = () => {
     setIsLogin((prev) => !prev);
     // setIsLogin(false);
   };
   return createPortal(
     <div className="fixed inset-0 w-[100vw] h-[100vh] z-[10000] flex items-center justify-center bg-[rgba(0,0,0,.65)] ">
-      <div className="relative overflow-hidden flex  rounded-[10px] bg-white">
+      <div className="relative overflow-hidden flex  rounded-[10px] bg-white w-full h-full lg:h-auto lg:w-auto">
         <CgCloseO
           onClick={onClick}
-          className="absolute top-0 right-0 text-[26px] m-[6px] text-[#717171] cursor-pointer hover:scale-125 hover:text-black transition-all duration-300"
+          className="absolute top-0 lg:right-0 right-[16px]  text-[26px] m-[6px] text-[#717171] cursor-pointer hover:scale-125 hover:text-black transition-all duration-300"
         />
         {/* left */}
-        <div className="w-[400px] p-6 h-[600px]">
+        <div className="lg:w-[400px] p-6 lg:h-[600px] w-full h-full ">
           <h2 className="mb-[10px] text-[21px] font-medium">
             {isLogin ? "  Đăng nhập tài khoản" : "Tạo tài khoản"}
           </h2>
@@ -68,7 +69,7 @@ function LoginPage({ onClick }) {
         </div>
 
         {/* right */}
-        <div className="w-[400px] bg-[#fdebef] ">
+        <div className="w-[400px] bg-[#fdebef] hidden lg:block">
           <img
             src="/img/login-image.svg"
             alt="login-image"

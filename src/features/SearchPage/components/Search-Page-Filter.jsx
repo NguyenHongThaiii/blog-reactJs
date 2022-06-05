@@ -7,9 +7,15 @@ SearchPageFilter.propTypes = {
   onChange: PropTypes.func,
   show: PropTypes.bool,
   onShow: PropTypes.func,
+  filters: PropTypes.object,
 };
 
-function SearchPageFilter({ onChange = null, show = false, onShow = null }) {
+function SearchPageFilter({
+  onChange = null,
+  show = false,
+  onShow = null,
+  filters = {},
+}) {
   const [state, setState] = useState({});
 
   useEffect(() => {
@@ -31,8 +37,13 @@ function SearchPageFilter({ onChange = null, show = false, onShow = null }) {
 
   return (
     <>
-      <CustomLayoutFilter data={state} onChange={handleOnChange} />
+      <CustomLayoutFilter
+        data={state}
+        onChange={handleOnChange}
+        filters={filters}
+      />
       <CustomFilterMobile
+        filters={filters}
         data={state}
         onChange={handleOnChange}
         show={show}

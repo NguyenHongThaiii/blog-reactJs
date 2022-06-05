@@ -26,6 +26,9 @@ function SearchPage(props) {
       topic: queryParams.topic ? `["${queryParams.topic}"]` : undefined,
       area: queryParams.area ? `["${queryParams.area}"]` : undefined,
       type: queryParams.type ? `["${queryParams.type}"]` : undefined,
+      convenient: queryParams.convenient
+        ? `["${queryParams.convenient}"]`
+        : undefined,
     };
   });
   const scrollRef = useRef(null);
@@ -63,6 +66,7 @@ function SearchPage(props) {
                 onChange={handleOnChange}
                 show={show}
                 onShow={() => setShow(false)}
+                filters={filters}
               />
 
               {/* right */}

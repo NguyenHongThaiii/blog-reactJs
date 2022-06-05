@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiltersContext } from "./../pages/Search-Page";
 
@@ -9,10 +9,11 @@ const NAME_LIST = ["topic", "area", "convenient", "type"];
 function CardFilter(props) {
   const [filters, setFilters] = useContext(FiltersContext);
   const newFilters = NAME_LIST.map((item) => {
-    if (filters && filters.length > 0 && filters[item]) {
+    if (filters && filters[item]) {
       return { [item]: JSON.parse(filters[item]) };
     }
   });
+
   const handleOnRemove = (index, key) => {
     switch (key) {
       case "topic": {

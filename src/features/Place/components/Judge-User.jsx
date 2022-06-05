@@ -126,13 +126,13 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null, blog = {} }) {
         <div className="flex items-center text-xs">
           <button
             onClick={() => handleClickFavor(item._id)}
-            className={`flex items-center ${
+            className={`flex items-center lg:text-sm  ${
               item.favorite > 0 ? "text-primary" : ""
             }`}
           >
             <FaHeart className={`w-3 h-3 mr-1 `} />
             {item.favorite > 0 && (
-              <span className="mx-[2px]">{item.favorite}</span>
+              <span className="mx-[2px] ">{item.favorite}</span>
             )}
             Thích
           </button>
@@ -141,7 +141,7 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null, blog = {} }) {
               handleShowReply();
               setShow(true);
             }}
-            className="before:content-['●'] before:inline-block before:text-[#c1c1c1] before:mx-[6px] before:text-[12px] first:before:hidden "
+            className="before:content-['●'] before:inline-block lg:text-sm before:text-[#c1c1c1] before:mx-[6px] before:text-[12px] first:before:hidden "
           >
             Trả lời
           </button>
@@ -161,7 +161,7 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null, blog = {} }) {
       {item.listReplies.length > 0 && show === false && (
         <div
           onClick={() => setShow(true)}
-          className="text-black pl-[6px] cursor-pointer text-xs mt-2 ml-[6px] flex items-center gap-x-2 hover:underline transition-all duration-300"
+          className="text-black pl-[6px] cursor-pointer text-xs lg:text-sm mt-2 ml-[6px] flex items-center gap-x-2 hover:underline transition-all duration-300"
         >
           <FaReplyAll className="rotate-180" />
           Xem thêm {item.listReplies.length} trả lời

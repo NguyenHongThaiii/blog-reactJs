@@ -64,7 +64,7 @@ function CustomFilterMobile({
   };
   return createPortal(
     <div
-      className={`fixed inset-0 bg-white overflow-y-scroll pb-[50px] transition-all duration-300 z-[1000] ${
+      className={`fixed inset-0 bg-white overflow-auto pb-[50px] transition-all duration-300 z-[1000] ${
         show ? "translate-y-0 opacity-100 " : "translate-y-[100%] opacity-0"
       }`}
     >

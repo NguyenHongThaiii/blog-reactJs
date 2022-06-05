@@ -13,6 +13,8 @@ PurposeFilter.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   mobile: PropTypes.bool,
+  filters: PropTypes.object,
+  type: PropTypes.string,
 };
 
 function PurposeFilter({
@@ -20,9 +22,11 @@ function PurposeFilter({
   title = "",
   data = [],
   name = "",
+  filters = {},
+  type = "checkbox",
   onChange = null,
 }) {
-  const [filters] = useContext(FiltersContext);
+  // const [filters] = useContext(FiltersContext);
   const [show, setShow] = useState(true);
 
   const handleOnChange = (value, event) => {
@@ -43,6 +47,13 @@ function PurposeFilter({
     });
 
     const res = [...new Set([...array])];
+
+    if (type === "radio") {
+      Object.keys(value).forEach((key) => {
+        onChange({ topic: `["${key}"]` });
+      });
+      return;
+    }
     if (res.length > 0) {
       onChange({ topic: `[${res}]` });
     } else {

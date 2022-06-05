@@ -11,6 +11,8 @@ ConvenientFilter.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   mobile: PropTypes.bool,
+  filters: PropTypes.object,
+  type: PropTypes.string,
 };
 
 function ConvenientFilter({
@@ -19,15 +21,17 @@ function ConvenientFilter({
   name = "",
   onChange = null,
   mobile = false,
+  filters = {},
+  type = "checkbox",
 }) {
   const [show, setShow] = useState(true);
-  const [filters] = useContext(FiltersContext);
+  // const [filters] = useContext(FiltersContext);
 
   const handleOnChange = (value, event) => {
     if (!onChange) return null;
 
-    const queryParams = filters.convenient
-      ? JSON.parse(filters.convenient).map((item) => `"${item}"`)
+    const queryParams = filters?.convenient
+      ? JSON.parse(filters?.convenient).map((item) => `"${item}"`)
       : [];
     const array = [...queryParams];
     Object.keys(value).forEach((item) => {
@@ -42,6 +46,13 @@ function ConvenientFilter({
     });
 
     const res = [...new Set([...array])];
+
+    if (type === "radio") {
+      Object.keys(value).forEach((key) => {
+        onChange({ convenient: `["${key}"]` });
+      });
+      return;
+    }
     if (res.length > 0) {
       onChange({ convenient: `[${res}]` });
     } else {

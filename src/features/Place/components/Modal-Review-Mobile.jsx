@@ -68,7 +68,7 @@ function ModalReviewMobile({ item = {}, onShow = null, onSubmit = null }) {
   return createPortal(
     <div className="fixed flex  justify-center inset-0 z-[10000] bg-[rgba(0,0,0,0.65)]">
       <div className="absolute h-full overflow-auto">
-        <div className="bg-white w-[610px]">
+        <div className="bg-white lg:w-[610px] sm:w-full">
           <div className="px-10 h-[50px] border-b-[1px] border-b-[rgba(0,0,0,0.1)] flex items-center justify-between">
             <div className="text-[20px] flex items-center justify-center grow font-bold ">
               Đánh giá {item.name}

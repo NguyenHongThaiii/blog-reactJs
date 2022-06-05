@@ -24,6 +24,7 @@ import {
 
 import "./Place-Page.scss";
 import { handleInnerHeightConvenient } from "../../../utils";
+import { Link } from "react-router-dom";
 ConvenientSlider.propTypes = {
   item: PropTypes.object,
 };
@@ -136,10 +137,13 @@ function ConvenientSlider({ item = {} }) {
         {item.convenient &&
           item.convenient.map((convenient, index) => (
             <SwiperSlide key={index}>
-              <div className="py-[16px] px-[6px] cursor-pointer flex flex-col gap-x-2 justify-center text-center items-center">
+              <Link
+                to={`/search?convenient=${convenient}`}
+                className="block py-[16px] px-[6px] cursor-pointer flex flex-col gap-x-2 justify-center text-center items-center"
+              >
                 {handleRenderSlider(convenient)}
                 <span className="text-sm">{convenient} </span>
-              </div>
+              </Link>
             </SwiperSlide>
           ))}
       </Swiper>

@@ -11,6 +11,8 @@ TypeFilter.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   mobile: PropTypes.bool,
+  filters: PropTypes.object,
+  type: PropTypes.string,
 };
 
 function TypeFilter({
@@ -19,9 +21,11 @@ function TypeFilter({
   data = [],
   name = "",
   onChange = null,
+  filters = {},
+  type = "checkbox",
 }) {
   const [show, setShow] = useState(true);
-  const [filters] = useContext(FiltersContext);
+  // const [filters] = useContext(FiltersContext);
 
   const handleOnChange = (value, event) => {
     if (!onChange) return null;
@@ -41,6 +45,13 @@ function TypeFilter({
     });
 
     const res = [...new Set([...array])];
+
+    if (type === "radio") {
+      Object.keys(value).forEach((key) => {
+        onChange({ type: `["${key}"]` });
+      });
+      return;
+    }
     if (res.length > 0) {
       onChange({ type: `[${res}]` });
     } else {

@@ -44,7 +44,7 @@ function Header() {
         <Link to="/" className=" h-[44px]  lg:h-[60px] ">
           <img src="/img/logo.svg" alt="" className="w-full h-full" />
         </Link>
-        {location.pathname === "/search" && (
+        {location.pathname !== "/" && (
           <div
             onClick={() => setFocus(true)}
             className={`hidden lg:flex items-center relative ${
