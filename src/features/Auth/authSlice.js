@@ -54,6 +54,16 @@ const authSlice = createSlice({
       state.current = { ...userLocal };
       setLocalStorage(STORAGE_KEY.USER, JSON.stringify({ ...userLocal }));
     },
+    removeSaveBlog: (state, action) => {
+      const userLocal = JSON.parse(getLocalStorage(STORAGE_KEY.USER));
+
+      if (!userLocal.blogSaved.includes(action.payload)) return;
+      userLocal.blogSaved = userLocal.blogSaved.filter(
+        (item) => item !== action.payload
+      );
+      state.current = { ...userLocal };
+      setLocalStorage(STORAGE_KEY.USER, JSON.stringify({ ...userLocal }));
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
@@ -67,6 +77,11 @@ const authSlice = createSlice({
   },
 });
 
-export const { showLoginPage, hideLoginPage, logout, createSaveBlog } =
-  authSlice.actions;
+export const {
+  showLoginPage,
+  hideLoginPage,
+  logout,
+  createSaveBlog,
+  removeSaveBlog,
+} = authSlice.actions;
 export default authSlice.reducer;

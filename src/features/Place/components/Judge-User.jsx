@@ -88,7 +88,7 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null, blog = {} }) {
               ref={moreRef}
               className={`relative py-[9px] px-[2px] lg:bg-[#f5f5f7] lg:py-[5px] lg:px-[15px] lg:rounded-br-[10px] lg:rounded-bl-[10px] `}
             >
-              <ReadMore>{item?.review}</ReadMore>
+              <ReadMore range={280}>{item?.review}</ReadMore>
               {item?.photo?.length > 0 && (
                 <div className="flex items-center whitespace-normal mt-[6px] gap-x-2 ">
                   {item?.photo?.slice(0, 3)?.map((img, index) => (
@@ -202,7 +202,9 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null, blog = {} }) {
                   </div>
                 </div>
 
-                <div className="py-[9px] px-[2px]">{reply?.reply}</div>
+                <div className="py-[9px] px-[2px]">
+                  <ReadMore range={200}>{reply?.reply}</ReadMore>
+                </div>
               </div>
             </div>
           </div>

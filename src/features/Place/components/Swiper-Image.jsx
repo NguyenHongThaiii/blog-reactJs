@@ -20,7 +20,6 @@ function SwiperImage({ data = {} }) {
     setShow(true);
   };
 
-  console.log(data);
   return (
     <div className="my-[10px] relative block lg:hidden">
       <Swiper onSlideChange={(swiper) => setIndexModal(swiper.activeIndex)}>

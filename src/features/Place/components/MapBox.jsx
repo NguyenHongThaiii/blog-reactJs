@@ -13,8 +13,6 @@ MapBox.propTypes = {
 };
 
 function MapBox({ data = {}, hideMap = null }) {
-  console.log(data);
-
   const mapContainer = useRef(null);
   const root = useRef(null);
   const map = useRef(null);

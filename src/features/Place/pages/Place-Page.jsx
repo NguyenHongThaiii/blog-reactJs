@@ -78,7 +78,6 @@ function PlacePage(props) {
 
   const handleShowModalImage = (index) => {
     setShowModalImage((prev) => ({ ...prev, index, show: true }));
-    console.log("run");
   };
 
   const handleShowModalMenu = () => {

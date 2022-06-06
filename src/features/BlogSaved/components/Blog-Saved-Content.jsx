@@ -57,7 +57,6 @@ function BlogSavedContent(props) {
       return { ...prev, page };
     });
   };
-  console.log(state);
   return (
     <div className=" max-w-[1200px] mx-auto px-4  flex flex-col lg:flex-row pb-[70px]">
       <BlogSavedFilter

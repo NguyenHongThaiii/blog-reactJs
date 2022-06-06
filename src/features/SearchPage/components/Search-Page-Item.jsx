@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { MdStarOutline, MdStarHalf, MdStar } from "react-icons/md";
 import blogsApi from "../../../../api/blogsApi";
 import { useDispatch, useSelector } from "react-redux";
-import { createSaveBlog } from "../../Auth/authSlice";
+import { createSaveBlog, removeSaveBlog } from "../../Auth/authSlice";
 import { handleTransformStringToDate } from "../../../utils";
 
 SearchPageItem.propTypes = {
@@ -19,9 +19,17 @@ function SearchPageItem({ data = {} }) {
     data?.reviewList?.reduce((acc, rating) => {
       return acc + rating.rating;
     }, 0);
-
   const handleClickSaveBlog = async () => {
-    if (user?.blogSaved.includes(data._id)) return;
+    if (user?.blogSaved?.includes(data._id)) {
+      console.log(data._id);
+      await blogsApi.removeBlogSaved({
+        userId: user._id,
+        blogId: data._id,
+      });
+      dispatch(removeSaveBlog(data._id));
+      console.log("remove success");
+      return;
+    }
 
     await blogsApi.createBlogSaved({
       userId: user._id,
@@ -29,7 +37,7 @@ function SearchPageItem({ data = {} }) {
     });
 
     dispatch(createSaveBlog(data._id));
-    console.log("success");
+    console.log("create success");
   };
 
   return (

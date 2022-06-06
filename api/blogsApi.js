@@ -20,6 +20,10 @@ const blogsApi = {
     const url = `/blogs/blogSaved/${data.userId}`;
     return axiosClient.post(url, data);
   },
+  removeBlogSaved(data) {
+    const url = `/blogs/blogSaved/delete/${data.userId}`;
+    return axiosClient.post(url, data);
+  },
   update(data, id) {
     const url = `/blogs/${id}`;
     return axiosClient.get(url, data);

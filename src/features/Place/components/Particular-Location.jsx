@@ -8,7 +8,6 @@ ParticularLocation.propTypes = {
 };
 
 function ParticularLocation({ data = {} }) {
-  console.log(data);
   return (
     <div className="pt-1 px-[14px] pb-[10px] mb-[6px] shadow-[0_1px_4px_rgb(0,0,0,0.3)]  rounded-[10px] flex-1  ">
       <h2 className="text-[21px] font-semibold">Địa điểm cụ thể</h2>

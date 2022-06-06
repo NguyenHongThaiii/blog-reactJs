@@ -20,7 +20,6 @@ function ModalMenu({ data = {}, hideModalMenu }) {
     setHide(false);
     setIndexCurr(index);
   };
-  console.log(data);
   return createPortal(
     <div className="fixed z-[10000] inset-0 bg-[rgba(0,0,0,.65)]">
       <div className="flex items-center justify-center h-full">
