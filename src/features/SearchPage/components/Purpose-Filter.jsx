@@ -95,9 +95,10 @@ function PurposeFilter({
                 id={item}
                 value={item}
                 onChange={handleOnChange}
+                type={type}
                 checked={
-                  filters.topic
-                    ? JSON.parse(filters.topic)?.includes(item)
+                  filters?.topic
+                    ? JSON.parse(filters?.topic)?.includes(item)
                     : false
                 }
               />
@@ -108,10 +109,11 @@ function PurposeFilter({
                 name={item}
                 id={item.replaceAll(" ", "")}
                 value={item}
+                type={type}
                 onChange={handleOnChange}
                 checked={
-                  filters.topic
-                    ? JSON.parse(filters.topic)?.includes(item)
+                  filters?.topic
+                    ? JSON.parse(filters?.topic)?.includes(item)
                     : false
                 }
               />

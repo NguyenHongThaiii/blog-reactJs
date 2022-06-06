@@ -93,9 +93,10 @@ function TypeFilter({
                 id={item}
                 value={item}
                 onChange={handleOnChange}
+                type={type}
                 checked={
-                  filters.type
-                    ? JSON.parse(filters.type)?.includes(item)
+                  filters?.type
+                    ? JSON.parse(filters?.type)?.includes(item)
                     : false
                 }
               />
@@ -106,10 +107,11 @@ function TypeFilter({
                 name={item}
                 id={item.replaceAll(" ", "")}
                 value={item}
+                type={type}
                 onChange={handleOnChange}
                 checked={
-                  filters.type
-                    ? JSON.parse(filters.type)?.includes(item)
+                  filters?.type
+                    ? JSON.parse(filters?.type)?.includes(item)
                     : false
                 }
               />

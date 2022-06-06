@@ -1,12 +1,11 @@
-import React, { useDeferredValue, useState } from "react";
 import PropTypes from "prop-types";
-import styled from "../scss/header.module.scss";
-import { createPortal } from "react-dom";
-import { Link, useNavigate } from "react-router-dom";
-import { FaUserEdit, FaCoins } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaCoins, FaUserEdit } from "react-icons/fa";
 import { MdMailOutline, MdPowerSettingsNew } from "react-icons/md";
 import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../features/Auth/authSlice";
+import styled from "../scss/header.module.scss";
 
 HeaderUser.propTypes = {
   user: PropTypes.object,
@@ -25,7 +24,7 @@ function HeaderUser({ user = {} }) {
     <>
       <Link
         to="/saved"
-        className={` block cursor-pointer w-[40px] h-[40px] rounded-full overflow-hidden flex items-center justify-center bg-[#f0f2f5] ${styled.buttonHeaderHover}`}
+        className={`  cursor-pointer w-[40px] h-[40px] rounded-full overflow-hidden flex items-center justify-center bg-[#f0f2f5] ${styled.buttonHeaderHover}`}
       >
         <img
           src="/img/saved.svg"
@@ -58,7 +57,7 @@ function HeaderUser({ user = {} }) {
           } transition-all duration-200`}
         >
           <Link
-            to="/"
+            to="/profile"
             className="flex gap-x-2 py-2 px-[14px] border-b-[#eee] border-b-[1px] text-black hover:bg-[#f6f6f6] hover:text-primary transition-all duration-150"
           >
             <div className="relative cursor-pointer w-[40px] h-[40px] rounded-full overflow-hidden  ">

@@ -17,6 +17,7 @@ CustomFilterMobile.propTypes = {
   onChange: PropTypes.func,
   show: PropTypes.bool,
   onShow: PropTypes.func,
+  parentFilters: PropTypes.object,
 };
 
 function CustomFilterMobile({
@@ -24,6 +25,7 @@ function CustomFilterMobile({
   onChange = null,
   show = false,
   onShow = null,
+  parentFilters = {},
 }) {
   if (typeof document === "undefined")
     return <div className="modal">Modal</div>;
@@ -97,6 +99,7 @@ function CustomFilterMobile({
           name="area"
           onChange={handleOnChange}
           mobile={true}
+          filters={parentFilters}
         />
         <PurposeFilter
           title="Mục đích"
@@ -104,6 +107,7 @@ function CustomFilterMobile({
           name="topic"
           onChange={handleOnChange}
           mobile={true}
+          filters={parentFilters}
         />
         <TypeFilter
           title="Kiểu quán"
@@ -111,6 +115,7 @@ function CustomFilterMobile({
           name="type"
           onChange={handleOnChange}
           mobile={true}
+          filters={parentFilters}
         />
         <ConvenientFilter
           title="Tiện ích"
@@ -118,6 +123,7 @@ function CustomFilterMobile({
           name="convenient"
           onChange={handleOnChange}
           mobile={true}
+          filters={parentFilters}
         />
       </div>
 

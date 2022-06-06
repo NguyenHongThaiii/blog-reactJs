@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaEllipsisH, FaHeart, FaReplyAll } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { handleCalculateDateFromNow } from "../../../utils";
 import ModalImage from "./Modal-Image";
 import ReadMore from "./Read-More";
 import ReplyUser from "./Reply-User";
@@ -73,7 +74,10 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null, blog = {} }) {
                   {item?.user?.name}
                 </h3>
                 <span className="text-xs font-normal text-[#898c95] mb-[2px] block hover:underline cursor-pointer">
-                  Đã đánh giá từ 22 ngày trước
+                  Đã đánh giá{" "}
+                  {handleCalculateDateFromNow(
+                    new Date(item?.createdAt).toLocaleDateString("en-US")
+                  )}{" "}
                 </span>
               </div>
             </div>
@@ -196,7 +200,10 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null, blog = {} }) {
                         {reply?.nameUser}
                       </h3>
                       <span className="text-xs font-normal text-[#898c95] mb-[2px] block hover:underline cursor-pointer">
-                        Đã đánh giá từ 22 ngày trước
+                        Đã đánh giá{" "}
+                        {handleCalculateDateFromNow(
+                          new Date(reply?.createdAt).toLocaleDateString("en-US")
+                        )}{" "}
                       </span>
                     </div>
                   </div>

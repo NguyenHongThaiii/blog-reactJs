@@ -194,7 +194,7 @@ function PlacePage(props) {
             <h2 className="lg:text-[28px] text-[20px] font-semibold flex items-center justify-between">
               Địa điểm lân cận
               <Link
-                to="/"
+                to={`/search?area=${state?.area}`}
                 className="font-normal text-sm text-primary curosr-pointer hover:underline transition-all lg:text-base"
               >
                 Xem thêm

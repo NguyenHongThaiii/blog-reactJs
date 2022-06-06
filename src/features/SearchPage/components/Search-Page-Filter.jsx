@@ -43,7 +43,7 @@ function SearchPageFilter({
         filters={filters}
       />
       <CustomFilterMobile
-        filters={filters}
+        parentFilters={filters}
         data={state}
         onChange={handleOnChange}
         show={show}

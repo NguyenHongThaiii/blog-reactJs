@@ -96,8 +96,8 @@ function ConvenientFilter({
                 value={item}
                 onChange={handleOnChange}
                 checked={
-                  filters.convenient
-                    ? JSON.parse(filters.convenient)?.includes(item)
+                  filters?.convenient
+                    ? JSON.parse(filters?.convenient)?.includes(item)
                     : false
                 }
               />
@@ -110,8 +110,8 @@ function ConvenientFilter({
                 value={item}
                 onChange={handleOnChange}
                 checked={
-                  filters.convenient
-                    ? JSON.parse(filters.convenient)?.includes(item)
+                  filters?.convenient
+                    ? JSON.parse(filters?.convenient)?.includes(item)
                     : false
                 }
               />
