@@ -24,9 +24,11 @@ function App() {
       document.getElementById("root").style.overflow = "hidden";
     } else {
       document.getElementById("root").style.maxHeight = "fit-content";
-      document.getElementById("root").style.overflow = "auto";
+      document.getElementById("root").style.overflow = "unset";
     }
   }, [hide]);
+  document.getElementById("root").style.overflow = "unset";
+
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
@@ -34,7 +36,7 @@ function App() {
       <Route path="/place/:name" element={<PlacePage />}></Route>
       <Route path="/place/:name/photo" element={<PhotoPage />}></Route>
       <Route path="/saved" element={<BlogSavedPage />} />
-      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/profile/:name" element={<ProfilePage />} />
     </Routes>
   );
 }

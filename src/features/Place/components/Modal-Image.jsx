@@ -91,7 +91,7 @@ function ModalImage({
         ))}
 
         <div className="absolute text-sm bg-[rgba(0,0,0,.5)] bottom-0 w-full  h-[42px]  z-[100] text-white flex items-center  py-[10px] px-5">
-          {data.name} - Toidicafe.vn
+          {data?.name} - Toidicafe.vn
         </div>
       </Swiper>
     </div>,

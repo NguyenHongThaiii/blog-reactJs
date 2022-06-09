@@ -2,8 +2,9 @@ import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { FaTimes } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
+import { createReview } from "../../Auth/authSlice";
 import CustomRate from "./Custom-Rate";
 import YourJudge from "./Your-Judge";
 
@@ -21,6 +22,7 @@ ModalReviewMobile.propTypes = {
 
 function ModalReviewMobile({ item = {}, onShow = null, onSubmit = null }) {
   const user = useSelector((state) => state.auth.current);
+  const dispatch = useDispatch();
   const formRef = useRef(null);
   const [values, setValues] = useState({
     food: 5,
@@ -42,6 +44,7 @@ function ModalReviewMobile({ item = {}, onShow = null, onSubmit = null }) {
     socket.on("createReview", (data) => {
       onSubmit(data);
       onShow();
+      dispatch(createReview(data._id));
     });
     return () => {
       socket.destroy();
@@ -53,7 +56,7 @@ function ModalReviewMobile({ item = {}, onShow = null, onSubmit = null }) {
   const handleClick = async () => {
     try {
       if (values.review.trim().length < 10) return null;
-      console.log({ ...values, blogId: item._id, userId: user._id });
+      // console.log({ ...values, blogId: item._id, userId: user._id });
 
       socket.emit("createReview", {
         ...values,

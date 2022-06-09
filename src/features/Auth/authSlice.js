@@ -64,6 +64,13 @@ const authSlice = createSlice({
       state.current = { ...userLocal };
       setLocalStorage(STORAGE_KEY.USER, JSON.stringify({ ...userLocal }));
     },
+    createReview: (state, action) => {
+      console.log(action.payload);
+      const userLocal = JSON.parse(getLocalStorage(STORAGE_KEY.USER));
+      userLocal.listReviews = [...userLocal?.listReviews, action.payload];
+      state.current = { ...userLocal };
+      setLocalStorage(STORAGE_KEY.USER, JSON.stringify({ ...userLocal }));
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
@@ -83,5 +90,6 @@ export const {
   logout,
   createSaveBlog,
   removeSaveBlog,
+  createReview,
 } = authSlice.actions;
 export default authSlice.reducer;

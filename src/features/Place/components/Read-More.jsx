@@ -13,7 +13,7 @@ function ReadMore({ range = 280, children }) {
   };
   return (
     <p className="text">
-      {isReadMore ? text.slice(0, range) : text}
+      {isReadMore && text.length > range ? text.slice(0, range) : text}
       <span
         onClick={toggleReadMore}
         className="read-or-hide text-primary hover:underline cursor-pointer transition-all"

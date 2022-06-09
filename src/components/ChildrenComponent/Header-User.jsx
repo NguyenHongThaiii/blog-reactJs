@@ -57,7 +57,7 @@ function HeaderUser({ user = {} }) {
           } transition-all duration-200`}
         >
           <Link
-            to="/profile"
+            to={`/profile/${user?.slug || "thainguyen"}`}
             className="flex gap-x-2 py-2 px-[14px] border-b-[#eee] border-b-[1px] text-black hover:bg-[#f6f6f6] hover:text-primary transition-all duration-150"
           >
             <div className="relative cursor-pointer w-[40px] h-[40px] rounded-full overflow-hidden  ">

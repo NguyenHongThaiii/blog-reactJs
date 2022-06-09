@@ -91,3 +91,12 @@ export const handleCalculateDateFromNow = (date) => {
     ? `từ ${Difference_In_Days} ngày trước`
     : "trong hôm nay";
 };
+
+export const handleFixDateToUs = (str) => {
+  const dayTemp2 = `0${str.split("/")[0]}`.slice(-2);
+  const monthTemp2 = `0${str.split("/")[1]}`.slice(-2);
+  const yearTemp2 = `0${str.split("/")[2]}`.slice(-4);
+  const temp = `${dayTemp2}/${monthTemp2}/${yearTemp2}`;
+
+  return temp;
+};

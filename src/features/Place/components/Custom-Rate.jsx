@@ -59,12 +59,28 @@ function CustomRate({ name = "", title = "", onChange = null }) {
     setStatus(false);
     onChange({ [name]: index });
   };
+  const handleShowStatus = () => {
+    switch (count) {
+      case 1:
+        return "Quá tệ";
+      case 2:
+        return "Trung bình";
+      case 3:
+        return "Bình thường";
+      case 4:
+        return "Tốt";
+      case 5:
+        return "Tuyệt vời";
 
+      default:
+        return "Tuyệt vời";
+    }
+  };
   return (
     <div className="pl-[10px] pr-5 flex items-center justify-between mb-1">
-      <span className="grow">{title}</span>
+      <span className="flex-1">{title}</span>
 
-      <div className="flex " ref={nodeRef}>
+      <div className="flex  grow" ref={nodeRef}>
         {Array.from(new Array(5)).map((item, index) => (
           <div
             onClick={() => handleClick(index + 1)}
@@ -80,6 +96,15 @@ function CustomRate({ name = "", title = "", onChange = null }) {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="flex-1">
+        <div className="relative inline-block text-base h-8 leading-[32px] pr-3 pl-[6px] ml-5  text-white bg-primary rounded-br-[4px] rounded-tr-[4px] ">
+          <span className="font-medium whitespace-normal min-w-[92px] block ">
+            {handleShowStatus()}
+          </span>
+          <div className="absolute border-transparent border-r-primary border-[16px] border-l-[0px] w-0 h-0  top-0 left-[-16px] "></div>
+        </div>
       </div>
     </div>
   );

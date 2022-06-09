@@ -60,7 +60,7 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null, blog = {} }) {
           <div className="flex items-center justify-between border-b-[1px] border-b-[#e0e0e0] py-1  ">
             <div className="flex items-center">
               <Link
-                to="/"
+                to={`/profile/${user?.slug}`}
                 className="mr-[11px] w-10 h-10 lg:w-[64px] lg:h-[64px]"
               >
                 <img
@@ -70,9 +70,12 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null, blog = {} }) {
                 />
               </Link>
               <div className="flex flex-col gap-y-1  ">
-                <h3 className="text-base font-semibold hover:underline cursor-pointer lg:text-[18px]">
+                <Link
+                  to={`/profile/${user?.slug}`}
+                  className="text-base font-semibold hover:underline cursor-pointer lg:text-[18px]"
+                >
                   {item?.user?.name}
-                </h3>
+                </Link>
                 <span className="text-xs font-normal text-[#898c95] mb-[2px] block hover:underline cursor-pointer">
                   Đã đánh giá{" "}
                   {handleCalculateDateFromNow(
@@ -184,7 +187,7 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null, blog = {} }) {
                 <div className="flex items-center justify-between border-b-[1px] border-b-[#e0e0e0] py-1 ">
                   <div className="flex items-center">
                     <Link
-                      to="/"
+                      to={`/profile/${reply?.slug}`}
                       className="mr-[11px] w-10 h-10 lg:w-[64px] lg:h-[64px]"
                     >
                       <img
@@ -196,9 +199,12 @@ function JudgeUser({ item = {}, onClick = null, onSubmit = null, blog = {} }) {
                       />
                     </Link>
                     <div className="flex flex-col gap-y-1  ">
-                      <h3 className="text-base font-semibold hover:underline cursor-pointer lg:text-[18px]">
+                      <Link
+                        to={`/profile/${reply?.slug}`}
+                        className="text-base font-semibold hover:underline cursor-pointer lg:text-[18px]"
+                      >
                         {reply?.nameUser}
-                      </h3>
+                      </Link>
                       <span className="text-xs font-normal text-[#898c95] mb-[2px] block hover:underline cursor-pointer">
                         Đã đánh giá{" "}
                         {handleCalculateDateFromNow(
