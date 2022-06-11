@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { useHide } from "../context/Global-Provider";
@@ -20,7 +20,12 @@ function Header() {
 
   const dispatch = useDispatch();
   const location = useLocation();
-
+  useEffect(() => {
+    return () => {
+      setHide(false);
+      handleHideLoginPage();
+    };
+  }, []);
   const handleClick = () => {
     setShow((prev) => !prev);
     setHide((prev) => !prev);

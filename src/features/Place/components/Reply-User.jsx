@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import TextareaCustomControl from "../../../components/Form-Control/Textarea-Custom-Control";
 
 ReplyUser.propTypes = {
   isReply: PropTypes.bool,
@@ -18,6 +19,7 @@ function ReplyUser({
 }) {
   const user = useSelector((state) => state.auth.current);
   const replyRef = useRef(null);
+  const [state, setState] = useState({});
 
   useEffect(() => {
     if (replyRef && replyRef.current) {
@@ -25,17 +27,23 @@ function ReplyUser({
     }
   }, [isReply]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    console.log({
+      reply: state.reply,
+      userId: user._id,
+      reviewId: review._id,
+    });
     await onSubmit({
-      reply: replyRef.current.value,
+      reply: state.reply,
       userId: user._id,
       reviewId: review._id,
     });
 
-    hideReply();
+    // hideReply();
   };
-
+  const handleOnChange = (value) => {
+    setState(value);
+  };
   return (
     <div className="border-l-[1px] border-l-[#eee] ml-[6px] mt-[16px] pl-[10px]">
       <div className="mt-1 pt-4 border-t-[1px] border-t-[#ddd]">
@@ -43,7 +51,7 @@ function ReplyUser({
           <div className="flex items-center justify-between border-b-[1px] border-b-[#e0e0e0] py-1 ">
             <div className="flex items-center">
               <Link
-                to="/"
+                to={`/profile/${user?.slug}`}
                 className="mr-[11px] w-10 h-10 lg:w-[64px] lg:h-[64px]"
               >
                 <img
@@ -63,12 +71,13 @@ function ReplyUser({
             </div>
           </div>
 
-          <form className="mt-2" onSubmit={handleSubmit}>
-            <input
-              ref={replyRef}
-              type="text"
-              placeholder="Viết trả lời..."
-              className=" px-2 py-1 w-full outline-none border-[1px] transition-all  bg-[#f5f4f4] rounded-[10px]  focus:border-primary"
+          <form className="mt-2" ref={replyRef}>
+            <TextareaCustomControl
+              className="bg-[#f5f5f7] text-xs lg:text-sm "
+              name="reply"
+              id="reply"
+              onKeyPress={handleSubmit}
+              onChange={handleOnChange}
             />
           </form>
         </div>

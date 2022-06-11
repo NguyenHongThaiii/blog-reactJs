@@ -69,7 +69,7 @@ function SearchPageContent({ data = [], onChange = null, count = 1 }) {
     <div className="">
       <div className="lg:mb-[22px] mb-[6px] flex items-center justify-between lg:px-0 px-[6px]">
         <span className="lg:text-[18px] text-base  ">
-          <strong className="mr-1">{data.length}</strong>
+          <strong className="mr-1">{count}</strong>
           địa điểm khớp với tìm kiếm của bạn:
           {(filters?.topic ||
             filters?.area ||

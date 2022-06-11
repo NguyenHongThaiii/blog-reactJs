@@ -37,7 +37,6 @@ function SearchPage(props) {
     (async () => {
       try {
         const data = await blogsApi.getAll(filters);
-
         setState(data.data);
       } catch (error) {
         console.log("Error 💥", error.message);

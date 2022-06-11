@@ -55,7 +55,7 @@ function SearchPageItem({ data = {} }) {
         </div>
       </Link>
 
-      <div className="lg:p-6 lg:pt-[6px] px-[10px] pt-[2px] pb-[6px] ">
+      <div className="lg:p-6 lg:pt-[6px] px-[10px] pt-[2px] pb-[6px] w-full">
         <h4 className="">
           <Link
             to={`/place/${data.slug}`}

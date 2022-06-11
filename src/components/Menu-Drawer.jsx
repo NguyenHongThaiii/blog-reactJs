@@ -188,7 +188,7 @@ function MenuDrawer({ show, onClick = null, onShow = null }) {
         ) : (
           <div>
             <Link
-              to="/"
+              to={`/profile/${user?.slug}`}
               className="flex gap-x-4 w-full px-5 pt-5 pb-4 bg-[linear-gradient(270deg,#ef5d7c,#e03)]  rounded-br-[60px] "
             >
               <img

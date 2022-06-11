@@ -43,7 +43,7 @@ function TextareaCustomControl({
     }, 0);
   };
   const handleOnKeyPress = (event) => {
-    if (event.key !== "Enter") return;
+    if (event.key !== "Enter" || !onKeyPress) return;
     onKeyPress();
     setTextarea("");
   };
@@ -52,12 +52,10 @@ function TextareaCustomControl({
     // Reset height - important to shrink on delete
     textareaRef.current.style.height = "inherit";
     // Set height
-    if (textareaRef.current.style.height >= 50) {
-      textareaRef.current.style.height = `${Math.max(
-        textareaRef.current.scrollHeight,
-        MIN_TEXTAREA_HEIGHT
-      )}px`;
-    }
+    textareaRef.current.style.height = `${Math.max(
+      textareaRef.current.scrollHeight,
+      MIN_TEXTAREA_HEIGHT
+    )}px`;
   }, [textarea]);
 
   return (

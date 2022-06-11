@@ -22,7 +22,7 @@ function GridImage({ length = 1, imageList = [], data = {} }) {
       className={`grid gap-1 ${length === 1 && "grid-cols-1 grid-rows-1 "} ${
         length === 2 && "grid-cols-2  grid-rows-1"
       } ${length === 3 && "grid-cols-6 grid-rows-4"} ${
-        length === 4 && "grid-cols-6 grid-rows-4 "
+        length === 4 && "grid-cols-4 grid-rows-4 "
       } ${length === 5 && "grid-cols-6 grid-rows-5"} `}
     >
       {imageList?.slice(0, 5)?.map((image, i) => (

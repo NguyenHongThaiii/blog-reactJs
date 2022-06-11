@@ -71,6 +71,22 @@ const authSlice = createSlice({
       state.current = { ...userLocal };
       setLocalStorage(STORAGE_KEY.USER, JSON.stringify({ ...userLocal }));
     },
+    toggleFollower: (state, action) => {
+      const userLocal = JSON.parse(getLocalStorage(STORAGE_KEY.USER));
+      if (userLocal?.listFollowing?.includes(action.payload.id)) {
+        const tempFollowList = userLocal?.listFollowing?.filter(
+          (item) => item !== action.payload.id
+        );
+        userLocal.listFollowing = tempFollowList;
+      } else {
+        userLocal.listFollowing = [
+          ...userLocal?.listFollowing,
+          action.payload.id,
+        ];
+      }
+      state.current = { ...userLocal };
+      setLocalStorage(STORAGE_KEY.USER, JSON.stringify({ ...userLocal }));
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
@@ -91,5 +107,6 @@ export const {
   createSaveBlog,
   removeSaveBlog,
   createReview,
+  toggleFollower,
 } = authSlice.actions;
 export default authSlice.reducer;

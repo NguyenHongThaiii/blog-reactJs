@@ -13,6 +13,10 @@ const usersApi = {
     const url = `/users/${id}`;
     return axiosClient.get(url);
   },
+  toggleFollower(data) {
+    const url = `/users/follow`;
+    return axiosClient.post(url, data);
+  },
   signup(data) {
     const url = "/users/signup";
     return axiosClient.post(url, data);

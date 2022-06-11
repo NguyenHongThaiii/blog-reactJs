@@ -11,24 +11,41 @@ import {
 import reviewsApi from "../../../../api/reviewsApi";
 import { handleFixDateToUs } from "../../../utils";
 
-VictoryTable.propTypes = {};
+VictoryTable.propTypes = {
+  data: PropTypes.object,
+};
 
-function VictoryTable(props) {
+function VictoryTable({ data = {} }) {
   const [favorLen, setFavorLen] = useState(0);
-  const user = useSelector((state) => state.auth.current);
+  const [state, setState] = useState([]);
+  console.log(data);
+  const commentLen = state?.reduce((acc, curr) => {
+    const tempLen = curr?.listReplies?.reduce((acc2, curr2) => {
+      if (curr2?.userId === data._id) {
+        return acc2 + 1;
+      }
+    }, 0);
+    return acc + tempLen;
+  }, 0);
   useEffect(() => {
     (async () => {
-      const api = user?.listReviews?.map((id) => {
+      const api = data?.listReviews?.map((id) => {
         return reviewsApi.getAll({ _id: id });
       });
-      const temp = await Promise.all(api);
-      const len = temp.reduce((acc, curr) => {
-        return acc + curr.data.data[0]?.favorite;
-      }, 0);
-      setFavorLen(len);
-    })();
-  }, [user]);
+      if (api?.length > 0) {
+        const temp = await Promise.all(api);
 
+        const res = temp.map((item) => item.data.data[0]);
+
+        const len = temp.reduce((acc, curr) => {
+          return acc + curr.data.data[0]?.favorite;
+        }, 0);
+        setFavorLen(len);
+        setState(res);
+      }
+    })();
+  }, [data]);
+  // console.log(state);
   return (
     <div className="lg:w-[340px] lg:mt-5 mt-2 w-full">
       <div className="relative text-center p-4 bg-white rounded-[10px] shadow-[0_2px_8px_rgb(0,0,0,0.15)] lg:mb-5 mb-2 w-full  ">
@@ -42,7 +59,7 @@ function VictoryTable(props) {
             <span>Đánh giá</span>
           </div>
           <div className="px-[10px] rounded-[6px] bg-[#efefef]">
-            {user?.listReviews?.length}
+            {data?.listReviews?.length}
           </div>
         </div>
 
@@ -53,7 +70,7 @@ function VictoryTable(props) {
             <span>Thảo luận</span>
           </div>
           <div className="px-[10px] rounded-[6px] bg-[#efefef]">
-            {user?.comments?.length}
+            {commentLen}
           </div>
         </div>
 
@@ -72,7 +89,9 @@ function VictoryTable(props) {
 
             <span>Người theo dõi</span>
           </div>
-          <div className="px-[10px] rounded-[6px] bg-[#efefef]">{0}</div>
+          <div className="px-[10px] rounded-[6px] bg-[#efefef]">
+            {data?.listFollowing?.length}
+          </div>
         </div>
 
         <div className="flex items-center mb-2 px-[10px] justify-between">
@@ -83,7 +102,7 @@ function VictoryTable(props) {
           </div>
           <div className="px-[10px] rounded-[6px] bg-[#efefef]">
             {handleFixDateToUs(
-              new Date(+user?.createdAt).toLocaleDateString("en-US")
+              new Date(+data?.createdAt).toLocaleDateString("en-US")
             )}
           </div>
         </div>

@@ -12,7 +12,7 @@ function ProfileContent({ data = {} }) {
   const [state, setState] = useState([]);
   return (
     <div className="lg:flex block  justify-center lg:px-4 max-w-[1200px] mx-auto">
-      <VictoryTable />
+      <VictoryTable data={data} />
       <div className="lg:max-w-[720px] w-full  h-full">
         <div className="lg:pt-5 lg:pl-5">
           {data?.listReviews?.length > 0 &&

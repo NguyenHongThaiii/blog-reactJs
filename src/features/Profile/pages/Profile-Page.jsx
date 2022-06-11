@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import LayoutUser from "../../../components/Layout-User";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaCamera } from "react-icons/fa";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import {
@@ -9,19 +9,20 @@ import {
   FaFacebookF,
   FaInstagram,
   FaEllipsisH,
+  FaRss,
 } from "react-icons/fa";
 import ProfileContent from "../components/Profile-Content";
 import usersApi from "../../../../api/usersApi";
+import { toggleFollower } from "../../Auth/authSlice";
 
 ProfilePage.propTypes = {};
 
 function ProfilePage(props) {
   const [state, setState] = useState({});
-
+  const user = useSelector((state) => state.auth.current);
   const location = useLocation();
   const slug = location.pathname.split("/")[2];
-  console.log(slug);
-  console.log();
+  const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
       try {
@@ -32,6 +33,20 @@ function ProfilePage(props) {
       }
     })();
   }, [location]);
+
+  const handleToggleFollow = async () => {
+    await usersApi.toggleFollower({
+      userId: user._id,
+      id: state._id,
+    });
+    dispatch(
+      toggleFollower({
+        userId: user._id,
+        id: state._id,
+      })
+    );
+  };
+
   return (
     <LayoutUser>
       <div className="min-h-[1000px] lg:pb-0 pb-[45px]">
@@ -52,7 +67,11 @@ function ProfilePage(props) {
                 {state?.name}
               </h1>
               <ul className="lg:hidden  h-full flex items-center gap-x-[6px] mt-2">
-                <li className="cursor-pointer text-base py-1 h-full flex items-center ">
+                <li
+                  className={`cursor-pointer text-base py-1 h-full  items-center ${
+                    slug === user?.slug ? "flex" : "hidden"
+                  }`}
+                >
                   <Link
                     to="/"
                     className="hover:bg-[#e0e0e0]  flex items-center gap-x-2 py-[6px] px-[18px]  rounded-[6px] bg-[#efefef] font-medium transition-all"
@@ -60,6 +79,19 @@ function ProfilePage(props) {
                     <FaPencilAlt />
                     Chỉnh sửa
                   </Link>
+                </li>
+                <li
+                  className={`cursor-pointer text-base py-1 h-full  items-center ${
+                    slug !== user?.slug ? "flex" : "hidden"
+                  }`}
+                  onClick={handleToggleFollow}
+                >
+                  <div className="hover:bg-[#e0e0e0]  flex items-center gap-x-2 py-[6px] bg-[rgba(238,0,51,.16)] text-primary px-[18px]  rounded-[6px] bg-[#efefef] font-medium transition-all">
+                    <FaRss />
+                    {user?.listFollowing?.includes(state?._id)
+                      ? "Đang theo dõi"
+                      : "Theo dõi"}
+                  </div>
                 </li>
                 <li className="cursor-pointer text-base py-1 h-full flex items-center gap-x-[6px]">
                   <Link
@@ -184,7 +216,11 @@ function ProfilePage(props) {
               </li>
             </ul>
             <ul className="h-full lg:flex items-center gap-x-[6px] hidden">
-              <li className="cursor-pointer text-base py-1 h-full flex items-center ">
+              <li
+                className={`cursor-pointer text-base py-1 h-full  items-center ${
+                  slug === user?.slug ? "flex" : "hidden"
+                }`}
+              >
                 <Link
                   to="/"
                   className="hover:bg-[#e0e0e0]  flex items-center gap-x-2 py-[6px] px-[18px]  rounded-[6px] bg-[#efefef] font-medium transition-all"
@@ -192,6 +228,19 @@ function ProfilePage(props) {
                   <FaPencilAlt />
                   Chỉnh sửa
                 </Link>
+              </li>
+              <li
+                className={`cursor-pointer text-base py-1 h-full  items-center ${
+                  slug !== user?.slug ? "flex" : "hidden"
+                }`}
+                onClick={handleToggleFollow}
+              >
+                <div className="hover:bg-[#e0e0e0]  flex items-center gap-x-2 py-[6px] bg-[rgba(238,0,51,.16)] text-primary px-[18px]  rounded-[6px] bg-[#efefef] font-medium transition-all">
+                  <FaRss />
+                  {user?.listFollowing?.includes(state?._id)
+                    ? "Đang theo dõi"
+                    : "Theo dõi"}
+                </div>
               </li>
               <li className="cursor-pointer text-base py-1 h-full flex items-center gap-x-[6px]">
                 <Link
