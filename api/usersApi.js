@@ -17,6 +17,10 @@ const usersApi = {
     const url = `/users/follow`;
     return axiosClient.post(url, data);
   },
+  update(data) {
+    const url = `/users/updateMe`;
+    return axiosClient.patch(url, data);
+  },
   signup(data) {
     const url = "/users/signup";
     return axiosClient.post(url, data);

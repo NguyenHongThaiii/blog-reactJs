@@ -18,7 +18,6 @@ VictoryTable.propTypes = {
 function VictoryTable({ data = {} }) {
   const [favorLen, setFavorLen] = useState(0);
   const [state, setState] = useState([]);
-  console.log(data);
   const commentLen = state?.reduce((acc, curr) => {
     const tempLen = curr?.listReplies?.reduce((acc2, curr2) => {
       if (curr2?.userId === data._id) {
@@ -45,7 +44,6 @@ function VictoryTable({ data = {} }) {
       }
     })();
   }, [data]);
-  // console.log(state);
   return (
     <div className="lg:w-[340px] lg:mt-5 mt-2 w-full">
       <div className="relative text-center p-4 bg-white rounded-[10px] shadow-[0_2px_8px_rgb(0,0,0,0.15)] lg:mb-5 mb-2 w-full  ">

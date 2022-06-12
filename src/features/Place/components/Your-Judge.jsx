@@ -38,7 +38,6 @@ function YourJudge({ item = {}, onChange = null }) {
     setFiles((prev) => [...prev, ...files]);
     if (!onChange) return;
     onChange({ files: arrayFiles });
-    console.log(e.target.buffer);
   };
   return (
     <div>

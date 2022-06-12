@@ -14,11 +14,13 @@ import {
 import ProfileContent from "../components/Profile-Content";
 import usersApi from "../../../../api/usersApi";
 import { toggleFollower } from "../../Auth/authSlice";
-
+import ModalUploadAvatar from "./../components/Modal-Upload-Avatar";
+import { handleCheckIsLocalImage } from "../../../utils";
 ProfilePage.propTypes = {};
 
 function ProfilePage(props) {
   const [state, setState] = useState({});
+  const [isModal, setIsModal] = useState(false);
   const user = useSelector((state) => state.auth.current);
   const location = useLocation();
   const slug = location.pathname.split("/")[2];
@@ -32,7 +34,7 @@ function ProfilePage(props) {
         console.log("error", error.message);
       }
     })();
-  }, [location]);
+  }, [location, user]);
 
   const handleToggleFollow = async () => {
     await usersApi.toggleFollower({
@@ -55,11 +57,20 @@ function ProfilePage(props) {
             <div className="flex flex-col items-center absolute top-[34%] justify-center ">
               <div className="w-[200px] h-[200px] p-[6px] rounded-full bg-white relative">
                 <img
-                  src={`${import.meta.env.VITE_URL_USERS}${state?.photo}`}
+                  src={`${
+                    handleCheckIsLocalImage(state?.photo)
+                      ? ""
+                      : import.meta.env.VITE_URL_USERS
+                  }${state?.photo}`}
                   alt={`${state?.name}`}
                   className="rounded-full w-full h-full object-cover"
                 />
-                <div className="absolute bottom-[10px] right-[20px] w-[38px] h-[38px] text-[20px] flex items-center justify-center rounded-full text-[rgb(64, 64, 64)] bg-[rgb(239,239,239)]">
+                <div
+                  onClick={() => setIsModal(true)}
+                  className={`${
+                    user.id === state._id ? "flex" : "hidden"
+                  } hover:bg-[#ddd] transition-all cursor-pointer absolute bottom-[10px] right-[20px] w-[38px] h-[38px] text-[20px]  items-center justify-center rounded-full text-[rgb(64, 64, 64)] bg-[rgb(239,239,239)]`}
+                >
                   <FaCamera className="" />
                 </div>
               </div>
@@ -271,6 +282,7 @@ function ProfilePage(props) {
         </div>
 
         <ProfileContent data={state} />
+        {isModal && <ModalUploadAvatar hideModal={() => setIsModal(false)} />}
       </div>
     </LayoutUser>
   );

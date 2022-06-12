@@ -100,3 +100,10 @@ export const handleFixDateToUs = (str) => {
 
   return temp;
 };
+
+export const handleCheckIsLocalImage = (url) => {
+  if (url?.includes("blob:http://localhost:3000")) {
+    return true;
+  }
+  return false;
+};

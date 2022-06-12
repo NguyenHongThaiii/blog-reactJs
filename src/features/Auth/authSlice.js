@@ -9,7 +9,7 @@ import {
 
 export const login = createAsyncThunk("users/login", async (data, thunkAPI) => {
   const response = await usersApi.login(data);
-  console.log(response);
+  // console.log(response);
   setLocalStorage(STORAGE_KEY.TOKEN, response.token);
   setLocalStorage(STORAGE_KEY.USER, JSON.stringify(response.data.user));
 
@@ -22,7 +22,7 @@ export const signup = createAsyncThunk(
     const response = await usersApi.signup(data);
     console.log(response);
     setLocalStorage(STORAGE_KEY.TOKEN, response.token);
-    setLocalStorage(STORAGE_KEY.USER, JSON.stringify(response.data.user));
+    setLocalStorage(STORAGE_KEY.USER, response.data.user);
 
     return response.data.user;
   }
@@ -87,6 +87,13 @@ const authSlice = createSlice({
       state.current = { ...userLocal };
       setLocalStorage(STORAGE_KEY.USER, JSON.stringify({ ...userLocal }));
     },
+    updateUser: (state, action) => {
+      const userLocal = JSON.parse(getLocalStorage(STORAGE_KEY.USER));
+      userLocal.photo = action.payload.avatar;
+
+      state.current = { ...userLocal };
+      setLocalStorage(STORAGE_KEY.USER, JSON.stringify({ ...userLocal }));
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
@@ -108,5 +115,6 @@ export const {
   removeSaveBlog,
   createReview,
   toggleFollower,
+  updateUser,
 } = authSlice.actions;
 export default authSlice.reducer;
