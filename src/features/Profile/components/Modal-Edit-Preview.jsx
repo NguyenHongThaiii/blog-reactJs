@@ -32,7 +32,7 @@ function ModalEditPreview({ url = "", hideModalPreview = null, hideModal }) {
       dispatch(updateUser({ avatar: res.data.user.photo }));
       hideModal();
     } catch (e) {
-      console.error(e);
+      console.error("Error", error);
     }
   }, [croppedAreaPixels]);
 

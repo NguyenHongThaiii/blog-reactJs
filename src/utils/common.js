@@ -50,13 +50,12 @@ export const handleTransformStringToDate = (transformString) => {
 
   const end = transformString.split("-")[1];
   const date = new Date();
-  const hoursCurr = date.getHours();
-  const minutesCurr = date.getMinutes();
-  const startHours = start.split(":")[0];
-  const startMinutes = start.split(":")[1];
-  const endHours = end.split(":")[0];
-  const endMinutes = end.split(":")[1];
-
+  const hoursCurr = date.getHours().toString();
+  const minutesCurr = date.getMinutes().toString();
+  const startHours = start.split(":")[0].trim();
+  const startMinutes = start.split(":")[1].trim();
+  const endHours = end.split(":")[0].trim();
+  const endMinutes = end.split(":")[1].trim();
   if (
     hoursCurr < startHours ||
     (hoursCurr === endHours && minutesCurr > endMinutes) ||

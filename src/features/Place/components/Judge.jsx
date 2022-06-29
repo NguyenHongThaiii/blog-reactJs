@@ -11,33 +11,37 @@ function Judge({ item = {}, onShow = null }) {
   const [judges, setJudges] = useState({});
   useEffect(() => {
     (async () => {
-      const { data } = await reviewsApi.getAll({ blog: item.id });
-      const judge = {};
-      data.data.forEach((item, index) => {
-        judge["food"] = judge["food"] ? judge["food"] + item.food : item.food;
-        judge["service"] = judge["service"]
-          ? judge["service"] + item.service
-          : item.service;
-        judge["price"] = judge["price"]
-          ? judge["price"] + item.price
-          : item.price;
-        judge["space"] = judge["space"]
-          ? judge["space"] + item.space
-          : item.space;
-        judge["location"] = judge["location"]
-          ? judge["location"] + item.location
-          : item.location;
-      });
-      setState(data.data);
-      setJudges(() => {
-        return {
-          food: judge["food"] / data.count,
-          price: judge["price"] / data.count,
-          service: judge["service"] / data.count,
-          location: judge["location"] / data.count,
-          space: judge["space"] / data.count,
-        };
-      });
+      try {
+        const { data } = await reviewsApi.getAll({ blog: item.id });
+        const judge = {};
+        data.data.forEach((item, index) => {
+          judge["food"] = judge["food"] ? judge["food"] + item.food : item.food;
+          judge["service"] = judge["service"]
+            ? judge["service"] + item.service
+            : item.service;
+          judge["price"] = judge["price"]
+            ? judge["price"] + item.price
+            : item.price;
+          judge["space"] = judge["space"]
+            ? judge["space"] + item.space
+            : item.space;
+          judge["location"] = judge["location"]
+            ? judge["location"] + item.location
+            : item.location;
+        });
+        setState(data.data);
+        setJudges(() => {
+          return {
+            food: judge["food"] / data.count,
+            price: judge["price"] / data.count,
+            service: judge["service"] / data.count,
+            location: judge["location"] / data.count,
+            space: judge["space"] / data.count,
+          };
+        });
+      } catch (error) {
+        console.log("Error", error);
+      }
     })();
   }, [item]);
   return (

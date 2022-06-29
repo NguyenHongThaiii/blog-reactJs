@@ -9,7 +9,7 @@ BlogSavedPage.propTypes = {};
 
 function BlogSavedPage(props) {
   const user = useSelector((state) => state.auth.current);
-  if (!user.name) return <Navigate to="/" />;
+  // if (!user?.name) return <Navigate to="/" />;
   return (
     <LayoutUser>
       <div>

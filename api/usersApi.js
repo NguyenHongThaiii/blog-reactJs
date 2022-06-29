@@ -27,7 +27,7 @@ const usersApi = {
   },
   logout() {
     const url = "/users/logout";
-    return axiosClient.post(url);
+    return axiosClient.get(url);
   },
 };
 

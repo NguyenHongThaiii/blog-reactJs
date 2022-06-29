@@ -1,6 +1,11 @@
 import axios from "axios";
 import { STORAGE_KEY } from "./../src/constant/index";
-import { getLocalStorage } from "../src/utils/index";
+import { getLocalStorage, removeLocalStorage } from "../src/utils/index";
+
+axios.defaults.withCredentials = true;
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+
 const axiosClient = axios.create({
   baseURL: "http://localhost:5000/api/v1",
   headers: { "Content-type": "application/json" },
@@ -11,7 +16,7 @@ axiosClient.interceptors.request.use(
     // Do something before request is sent
     const token = getLocalStorage(STORAGE_KEY.TOKEN);
     if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
+      // config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -32,12 +37,21 @@ axiosClient.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    const message = error?.response?.data?.message;
+    console.log(error);
     if (
       error.code === "ERR_BAD_REQUEST" &&
-      error?.response?.data?.error?.statusCode === 401
+      error?.response?.data?.error?.statusCode === 401 &&
+      message !== "Token is invalid or has expired"
     ) {
-      const message = error?.response?.data?.message;
-      console.log("true");
+      throw new Error(message);
+    }
+    if (
+      error.code === "ERR_BAD_REQUEST" &&
+      error?.response?.data?.error?.statusCode === 401 &&
+      message === "Token is invalid or has expired"
+    ) {
+      removeLocalStorage(STORAGE_KEY.USER);
       throw new Error(message);
     }
     throw new Error(error);

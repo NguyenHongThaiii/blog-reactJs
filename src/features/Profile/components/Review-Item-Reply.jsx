@@ -14,12 +14,16 @@ function ReviewItemReply({ listReplies = [], onClick = null }) {
   const [state, setState] = useState([]);
   useEffect(() => {
     (async () => {
-      const temp = listReplies.map((item) => {
-        return repliesApi.get(item._id);
-      });
-      const res = await Promise.all(temp);
-      const newState = res.map((item) => item.data.data);
-      setState(newState);
+      try {
+        const temp = listReplies.map((item) => {
+          return repliesApi.get(item._id);
+        });
+        const res = await Promise.all(temp);
+        const newState = res.map((item) => item.data.data);
+        setState(newState);
+      } catch (error) {
+        console.log("Error", error);
+      }
     })();
   }, [listReplies]);
 

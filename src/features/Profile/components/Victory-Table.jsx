@@ -28,19 +28,23 @@ function VictoryTable({ data = {} }) {
   }, 0);
   useEffect(() => {
     (async () => {
-      const api = data?.listReviews?.map((id) => {
-        return reviewsApi.getAll({ _id: id });
-      });
-      if (api?.length > 0) {
-        const temp = await Promise.all(api);
+      try {
+        const api = data?.listReviews?.map((id) => {
+          return reviewsApi.getAll({ _id: id });
+        });
+        if (api?.length > 0) {
+          const temp = await Promise.all(api);
 
-        const res = temp.map((item) => item.data.data[0]);
+          const res = temp.map((item) => item.data.data[0]);
 
-        const len = temp.reduce((acc, curr) => {
-          return acc + curr.data.data[0]?.favorite;
-        }, 0);
-        setFavorLen(len);
-        setState(res);
+          const len = temp.reduce((acc, curr) => {
+            return acc + curr.data.data[0]?.favorite;
+          }, 0);
+          setFavorLen(len);
+          setState(res);
+        }
+      } catch (error) {
+        console.log("Error", error);
       }
     })();
   }, [data]);

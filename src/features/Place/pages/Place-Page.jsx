@@ -6,7 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import blogsApi from "../../../../api/blogsApi";
 import LayoutUser from "../../../components/Layout-User";
 import { GlobalProvider, useHide } from "../../../context/Global-Provider";
-import { createSaveBlog } from "../../Auth/authSlice";
+import { createSaveBlog, removeSaveBlog } from "../../Auth/authSlice";
 import ConcernSlide from "../components/Concern-Slide";
 import ConvenientSlider from "../components/Convenient-Slider";
 import Judge from "../components/Judge";
@@ -40,20 +40,24 @@ function PlacePage(props) {
 
   useEffect(() => {
     (async () => {
-      const { data } = await blogsApi.get(slug);
-      const res = await blogsApi.getAll({
-        area: `["${data.data.area}"]`,
-        limit: 4,
-      });
-      setState(data.data);
-      setConcern(res.data.data);
-      if (typeof document !== "undefined") {
-        document.getElementById("root").style.overflow = "unset";
-      }
-      if (scrollRef && scrollRef.current) {
-        scrollRef.current.scrollIntoView({
-          behavior: "smooth",
+      try {
+        const { data } = await blogsApi.get(slug);
+        const res = await blogsApi.getAll({
+          area: `["${data.data.area}"]`,
+          limit: 4,
         });
+        setState(data.data);
+        setConcern(res.data.data);
+        if (typeof document !== "undefined") {
+          document.getElementById("root").style.overflow = "unset";
+        }
+        if (scrollRef && scrollRef.current) {
+          scrollRef.current.scrollIntoView({
+            behavior: "smooth",
+          });
+        }
+      } catch (error) {
+        console.log("Error", error);
       }
     })();
 
@@ -65,11 +69,20 @@ function PlacePage(props) {
   }, [location, location.pathname]);
 
   const handleSaveBlogs = async () => {
-    if (user?.blogSaved.includes(state._id)) return;
+    if (user?.blogSaved.includes(state._id)) {
+      await blogsApi.removeBlogSaved({
+        userId: user?._id,
+        blogId: state?._id,
+      });
+      dispatch(removeSaveBlog(state._id));
+      console.log("remove success");
+
+      return;
+    }
 
     await blogsApi.createBlogSaved({
-      userId: user._id,
-      blogId: state._id,
+      userId: user?._id,
+      blogId: state?._id,
     });
 
     dispatch(createSaveBlog(state._id));
@@ -170,12 +183,12 @@ function PlacePage(props) {
           </div>
 
           <div className=" lg:flex block justify-between gap-x-4  lg:mt-5  ">
-            <JudgePublic
+            {/* <JudgePublic
               item={state}
               show={show}
               onShow={() => setShow(true)}
               hideShow={() => setShow(false)}
-            />
+            /> */}
 
             <div className="w-[calc(33.33%_-_20px)] lg:block hidden sticky top-[20px]  position-[-webkit-sticky] h-fit mb-[6px]   ">
               <Judge item={state} show={show} onShow={() => setShow(true)} />

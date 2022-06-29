@@ -28,8 +28,12 @@ function ReviewItem({ reviewId = "", data = {} }) {
   const user = useSelector((state) => state.auth.current);
   useEffect(() => {
     (async () => {
-      const { data } = await reviewsApi.getAll({ _id: reviewId });
-      setState(data.data[0]);
+      try {
+        const { data } = await reviewsApi.getAll({ _id: reviewId });
+        setState(data.data[0]);
+      } catch (error) {
+        console.log("Error", error);
+      }
     })();
   }, [data]);
   useEffect(() => {

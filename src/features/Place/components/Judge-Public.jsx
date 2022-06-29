@@ -28,9 +28,16 @@ function JudgePublic({
   const [page, setPage] = useState(1);
   useEffect(() => {
     (async () => {
-      const { data } = await reviewsApi.getAll({ ...filters, blog: item._id });
-      setReviews(data.data);
-      setCount(data.count);
+      try {
+        const { data } = await reviewsApi.getAll({
+          ...filters,
+          blog: item._id,
+        });
+        setReviews(data.data);
+        setCount(data.count);
+      } catch (error) {
+        console.log("Error", error);
+      }
     })();
   }, [filters, item]);
 
@@ -39,14 +46,19 @@ function JudgePublic({
     setFilers((prev) => ({ ...prev, page }));
   };
   useEffect(() => {
-    socket = io.connect("http://localhost:5000");
-    socket.on("favor", (data) => {
-      setReviews(data);
-    });
-    socket.on("createReply", (data) => {
-      // console.log(data);
-      setReviews(data);
-    });
+    try {
+      socket = io.connect("http://localhost:5000");
+      socket.on("favor", (data) => {
+        setReviews(data);
+      });
+      socket.on("createReply", (data) => {
+        // console.log(data);
+        setReviews(data);
+      });
+    } catch (error) {
+      console.log("Error", error);
+      socket.destroy();
+    }
     return () => {
       socket.destroy();
     };
@@ -119,13 +131,13 @@ function JudgePublic({
         </div>
       )}
 
-      {show && (
+      {/* {show && (
         <ModalReviewMobile
           item={item}
           onShow={hideShow}
           onSubmit={(values) => setReviews((prev) => [...prev, values])}
         />
-      )}
+      )} */}
     </div>
   );
 }

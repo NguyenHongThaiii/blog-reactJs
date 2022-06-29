@@ -10,7 +10,7 @@ import {
 export const login = createAsyncThunk("users/login", async (data, thunkAPI) => {
   const response = await usersApi.login(data);
   // console.log(response);
-  setLocalStorage(STORAGE_KEY.TOKEN, response.token);
+  // setLocalStorage(STORAGE_KEY.TOKEN, response.token);
   setLocalStorage(STORAGE_KEY.USER, JSON.stringify(response.data.user));
 
   return response.data.user;
@@ -21,7 +21,7 @@ export const signup = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await usersApi.signup(data);
     console.log(response);
-    setLocalStorage(STORAGE_KEY.TOKEN, response.token);
+    // setLocalStorage(STORAGE_KEY.TOKEN, response.token);
     setLocalStorage(STORAGE_KEY.USER, response.data.user);
 
     return response.data.user;
@@ -43,7 +43,7 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       removeLocalStorage(STORAGE_KEY.USER);
-      removeLocalStorage(STORAGE_KEY.TOKEN);
+      // removeLocalStorage(STORAGE_KEY.TOKEN);
       state.current = null;
     },
     createSaveBlog: (state, action) => {

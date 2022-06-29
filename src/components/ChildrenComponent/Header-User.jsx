@@ -4,6 +4,7 @@ import { FaCoins, FaUserEdit } from "react-icons/fa";
 import { MdMailOutline, MdPowerSettingsNew } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import usersApi from "../../../api/usersApi";
 import { logout } from "../../features/Auth/authSlice";
 import styled from "../scss/header.module.scss";
 
@@ -15,10 +16,15 @@ function HeaderUser({ user = {} }) {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleLogout = () => {
-    const action = logout();
-    dispatch(action);
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await usersApi.logout();
+      const action = logout();
+      dispatch(action);
+      navigate("/");
+    } catch (error) {
+      console.log("Error", error);
+    }
   };
   return (
     <>

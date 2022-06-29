@@ -36,16 +36,22 @@ function ModalReviewMobile({ item = {}, onShow = null, onSubmit = null }) {
   if (typeof document === "undefined")
     return <div className="modal">Modal</div>;
   useEffect(() => {
-    socket = io.connect("http://localhost:5000", {
-      extraHeaders: {
-        headers: { "Content-Type": "multipart/form-data" },
-      },
-    });
-    socket.on("createReview", (data) => {
-      onSubmit(data);
-      onShow();
-      dispatch(createReview(data._id));
-    });
+    try {
+      socket = io.connect("http://localhost:5000", {
+        extraHeaders: {
+          headers: { "Content-Type": "multipart/form-data" },
+        },
+      });
+      socket.on("createReview", (data) => {
+        onSubmit(data);
+        onShow();
+        dispatch(createReview(data._id));
+      });
+    } catch (error) {
+      console.log("Error", error);
+      socket.destroy();
+    }
+
     return () => {
       socket.destroy();
     };

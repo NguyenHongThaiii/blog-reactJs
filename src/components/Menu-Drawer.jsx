@@ -8,6 +8,7 @@ import { FaUserEdit } from "react-icons/fa";
 import { logout } from "../features/Auth/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import usersApi from "../../api/usersApi";
 const MENU_LIST = [
   {
     title: "Tôi Đi Cafe",
@@ -154,11 +155,16 @@ function MenuDrawer({ show, onClick = null, onShow = null }) {
     onClick();
     onShow();
   };
-  const handleLogout = () => {
-    const action = logout();
-    dispatch(action);
-    navigate("/");
-    onClick();
+  const handleLogout = async () => {
+    try {
+      await usersApi.logout();
+      const action = logout();
+      dispatch(action);
+      navigate("/");
+      onClick();
+    } catch (error) {
+      console.log("Error", error);
+    }
   };
   return createPortal(
     <div

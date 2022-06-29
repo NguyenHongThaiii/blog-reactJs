@@ -21,7 +21,9 @@ function PhotoPage({ data = {} }) {
         const { data } = await blogsApi.get(slug);
         setState(data?.data);
         console.log(data?.data);
-      } catch (error) {}
+      } catch (error) {
+        console.log("Error", error);
+      }
     })();
   }, []);
   const handleHideModalImage = () => {
