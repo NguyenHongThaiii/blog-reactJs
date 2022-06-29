@@ -24,7 +24,6 @@ function AreaFilter({
   type = "checkbox",
   filters = {},
 }) {
-  // const [filters] = useContext(FiltersContext);
   const [show, setShow] = useState(true);
 
   const handleOnChange = (value, event) => {
